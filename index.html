@@ -2493,6 +2493,15 @@
       color: white;
       border-color: #f43f5e;
     }
+
+    @media (max-width: 768px) {
+      #my-cal-inline-15min {
+        border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+        overflow: hidden;
+      }
+    }
   </style>
 </head>
 
@@ -2980,8 +2989,8 @@
           id: 'youtube',
           logo: 'images/Youtube-Logo.png',
           title: 'YouTube Growth & Video Eng.',
-          accentColor: 'linear-gradient(to bottom, rgba(255, 0, 0, 0.16) 0%, #ffffff 100%)',
-          borderColor: 'rgba(255, 0, 0, 0.12)',
+          accentColor: '#FFEAEA',
+          borderColor: '#FFD6D6',
           slides: [
             {
               title: "High-Retention Scripts",
@@ -3001,8 +3010,8 @@
           id: 'linkedin',
           logo: 'images/Linkedin_logo_PNG4.png',
           title: 'LinkedIn Authority Branding',
-          accentColor: 'linear-gradient(to bottom, rgba(10, 102, 194, 0.16) 0%, #ffffff 100%)',
-          borderColor: 'rgba(10, 102, 194, 0.15)',
+          accentColor: '#E8F2FC',
+          borderColor: '#CCDDF2',
           slides: [
             {
               title: "Authority Carousels",
@@ -3022,8 +3031,8 @@
           id: 'notion',
           logo: 'images/Notion-Emblem.png',
           title: 'Notion Workflow Setup',
-          accentColor: 'linear-gradient(to bottom, rgba(15, 15, 15, 0.12) 0%, #ffffff 100%)',
-          borderColor: 'rgba(15, 15, 15, 0.12)',
+          accentColor: '#ECECEC',
+          borderColor: '#E0E0E0',
           slides: [
             {
               title: "Brand Hubs",
@@ -3127,8 +3136,6 @@
                                 borderRadius: '20px', 
                                 padding: '24px 16px', 
                                 textAlign: 'center',
-                                backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.06) 1.5px, transparent 1.5px)',
-                                backgroundSize: '16px 16px',
                                 position: 'relative',
                                 zIndex: 1
                               }}>
@@ -3182,17 +3189,6 @@
                           overflow: 'hidden'
                         }}
                       >
-                        {/* Dot Grid Background with Opacity inside card */}
-                        <div style={{
-                          position: 'absolute',
-                          inset: 0,
-                          backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.08) 1.5px, transparent 1.5px)',
-                          backgroundSize: '24px 24px',
-                          opacity: isActive ? 0.8 : 0.3,
-                          pointerEvents: 'none',
-                          zIndex: 0
-                        }} />
-
                         {!isActive ? (
                           /* Collapsed Card Content (Horizontal Logo Rotated 90 degrees vertically) */
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', zIndex: 1, pointerEvents: 'none', animation: 'fadeIn 0.4s' }}>
@@ -3233,8 +3229,6 @@
                                 padding: '28px 24px', 
                                 textAlign: 'center', 
                                 boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
-                                backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.05) 1.5px, transparent 1.5px)',
-                                backgroundSize: '20px 20px',
                                 position: 'relative',
                                 zIndex: 1
                               }}>
