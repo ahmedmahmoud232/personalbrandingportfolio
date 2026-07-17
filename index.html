@@ -3184,9 +3184,10 @@
                           border: isActive ? `1px solid ${tab.borderColor}` : '1px solid rgba(0, 0, 0, 0.05)',
                           borderRadius: '32px',
                           padding: '32px',
-                              transition: 'all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                          transition: 'all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1)',
                           boxShadow: isActive ? '0 20px 40px rgba(0,0,0,0.02)' : 'none',
-                          overflow: 'hidden'
+                          overflow: 'hidden',
+                          cursor: isActive ? 'default' : 'pointer'
                         }}
                       >
                         {!isActive ? (
@@ -3468,7 +3469,7 @@
           {selectedService && (
             <div className="popup-overlay" onClick={() => { setSelectedService(null); setIsPopDropdownOpen(false); }}>
               <div className="popup-content" style={{
-                background: '#ffffff',
+                background: 'linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)',
                 border: '1px solid rgba(0, 0, 0, 0.08)',
                 borderRadius: '24px',
                 padding: '36px',
@@ -4217,7 +4218,7 @@
 
           {formActive && !useCalCom && (
             <div className="booking-modal-overlay" onClick={() => setFormActive(false)}>
-              <div className="popup-content" onClick={e => e.stopPropagation()} style={{ background: '#ffffff', borderRadius: '24px', padding: '36px', maxWidth: '480px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}>
+              <div className="popup-content" onClick={e => e.stopPropagation()} style={{ background: 'linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)', border: '1px solid rgba(0, 0, 0, 0.08)', borderRadius: '24px', padding: '36px', maxWidth: '480px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}>
                 {loading ? (
                   /* Rotating Loader state card */
                   <div style={{ textAlign: 'center', padding: '32px 0', animation: 'fadeIn 0.3s' }}>
