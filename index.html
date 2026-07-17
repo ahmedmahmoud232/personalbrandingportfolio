@@ -1,0 +1,4338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kacper — Personal Brand Specialist</title>
+  <meta name="description"
+    content="Kacper, a Personal Brand Specialist crafting premium digital experiences.">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { ink: '#0a0a0f', offwhite: '#f5f4f0', accent: '#5b5bd6', accentL: '#7c7de8', dim: '#6b7280', card: '#ffffff', border: '#e5e7eb' },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          fontSize: { '10xl': ['10rem', { lineHeight: '0.9' }], '9xl': ['8rem', { lineHeight: '0.9' }] }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(-60vh) translateX(var(--sway-distance)) rotate(calc(var(--rotation) / 2));
+      }
+
+      95% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-130vh) translateX(var(--end-sway, 0px)) rotate(var(--rotation));
+        opacity: 0;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #0a0a0f;
+      overflow-x: hidden;
+      cursor: url('data:image/svg+xml;utf8,<svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0L0 20L5.5 14.5L9 22L12 21L8.5 13.5H16L0 0Z" fill="black" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>'), auto
+    }
+
+    a,
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit
+    }
+
+    a,
+    button,
+    select,
+    .f-card-b,
+    .m-item img,
+    label {
+      cursor: pointer !important
+    }
+
+    input,
+    textarea,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    span,
+    div.hero-sub {
+      cursor: text
+    }
+
+    ::selection {
+      background: #5b5bd620;
+      color: #0a0a0f
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 16px 48px;
+      pointer-events: none;
+      /* let clicks pass through the transparent area */
+      transition: all .4s ease;
+      animation: heroEntrance 0.8s ease backwards;
+    }
+
+    nav.scrolled {
+      padding: 12px 48px
+    }
+
+    /* The actual pill container */
+    .nav-pill {
+      width: 100%;
+      max-width: 1104px;
+      margin: 0 auto;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 1px solid transparent;
+      border-radius: 100px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px 0 24px;
+      position: relative;
+      pointer-events: all;
+      box-shadow: none;
+      transition: all .3s ease;
+    }
+
+    .nav-logo-img {
+      height: 30px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    nav.scrolled .nav-pill {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      color: #0a0a0f;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #5b5bd6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: white;
+      stroke-width: 2.5;
+      fill: none
+    }
+
+    .logo-text {
+      color: #0a0a0f
+    }
+
+    .logo-text span {
+      color: #5b5bd6
+    }
+
+    /* Center links */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: #6b7280;
+      text-decoration: none;
+      transition: color .2s, background .2s;
+      letter-spacing: .01em;
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active-nav {
+      color: #0a0a0f;
+      background: rgba(0, 0, 0, 0.05)
+    }
+
+    /* CTA area */
+    .nav-cta {
+      display: flex;
+      flex-direction: row !important;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0
+    }
+
+    /* Shared buttons — keep existing class names so rest of page still works */
+    .btn-primary {
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ffffff;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      transition: all .25s;
+      letter-spacing: .01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 42px;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background: #f43f5e;
+      color: #ffffff;
+      border-color: #f43f5e;
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.35);
+      transform: translateY(-1px)
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #0a0a0f;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1.5px solid rgba(0, 0, 0, 0.08);
+      transition: all .25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 42px;
+      white-space: nowrap;
+    }
+
+    .btn-ghost:hover {
+      background: #f43f5e;
+      color: #ffffff;
+      border-color: #f43f5e;
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.35);
+      transform: translateY(-1px)
+    }
+
+    /* Mobile Menu Styles */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #0a0a0f;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(245, 244, 240, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(-20px);
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .mobile-menu a.m-link {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0a0a0f;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a.m-link:hover,
+    .mobile-menu a.m-link.active-nav {
+      color: #5b5bd6;
+    }
+
+    .mobile-menu-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 100px;
+      padding: 10px 20px;
+      z-index: 95;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .bottom-nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .b-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #9ca3af;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .b-nav-item.active,
+    .b-nav-item:hover {
+      color: #0a0a0f;
+    }
+
+    .b-nav-icon {
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .b-nav-item:active .b-nav-icon {
+      transform: scale(0.75);
+    }
+
+    .b-nav-item span {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    @media(max-width:960px) {
+
+      .nav-links,
+      .nav-cta {
+        display: none !important;
+      }
+
+      .nav-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .bottom-nav {
+        display: block;
+      }
+
+      .nav-pill {
+        max-width: calc(100% - 32px);
+        padding: 0 12px 0 16px
+      }
+
+      nav {
+        padding: 12px 16px
+      }
+
+      footer {
+        padding-bottom: 120px !important;
+      }
+    }
+
+    @media(max-width:540px) {
+      .logo-text {
+        display: none
+      }
+
+      .nav-pill {
+        padding: 0 8px 0 8px;
+        height: 52px
+      }
+
+      .btn-primary {
+        padding: 8px 16px;
+        font-size: 12px
+      }
+
+      .btn-ghost {
+        padding: 8px 14px;
+        font-size: 12px
+      }
+    }
+
+    @media(max-width:420px) {
+      .nav-pill {
+        max-width: calc(100% - 20px)
+      }
+
+      .hero-tag {
+        margin-bottom: 20px;
+      }
+
+      .hero-h1 {
+        font-size: 32px;
+        line-height: 1.2;
+        margin-bottom: 12px
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        margin-bottom: 24px;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        margin-bottom: 32px;
+      }
+    }
+
+    /* ─── HERO ─── */
+    @keyframes heroEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #home {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0
+    }
+
+    .hero-line-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      z-index: 0;
+      opacity: 0.8;
+    }
+
+    /* two-col layout */
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 120px 48px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+      min-height: 100vh;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    /* available tag — always visible, never moves */
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 100px;
+      padding: 6px 14px 6px 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 32px;
+      box-shadow: none;
+      flex-shrink: 0;
+      animation: heroEntrance 0.8s ease backwards;
+      animation-delay: 0.1s;
+    }
+
+    .hero-tag-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse-green 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-green {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, .4)
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0)
+      }
+    }
+
+    .hero-tag-dot svg {
+      width: 10px;
+      height: 10px;
+      stroke: #fff;
+      stroke-width: 3;
+      fill: none
+    }
+
+    /* h1 has reserved height so layout never reflows */
+    .hero-h1 {
+      font-size: clamp(36px, 4.5vw, 68px);
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: -.035em;
+      color: #0a0a0f;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: flex-start;
+      flex-shrink: 0;
+      animation: heroEntrance 0.8s ease backwards;
+      animation-delay: 0.2s;
+    }
+
+    .hero-h1 em {
+      font-style: normal;
+      color: #5b5bd6
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #6b7280;
+      max-width: 440px;
+      margin-bottom: 36px;
+      flex-shrink: 0;
+      animation: heroEntrance 0.8s ease backwards;
+      animation-delay: 0.3s;
+    }
+
+    /* CTA buttons — stacked below sub, never move */
+    .hero-actions {
+      display: flex;
+      flex-direction: row !important;
+      gap: 12px;
+      flex-shrink: 0;
+      margin-bottom: 40px;
+      align-items: center;
+      animation: heroEntrance 0.8s ease backwards;
+      animation-delay: 0.4s;
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: #d1d5db
+    }
+
+    /* image side */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 500px;
+      animation: heroEntrance 1s ease backwards;
+      animation-delay: 0.3s;
+    }
+
+    .hero-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 850px;
+      transform: translate(-50%, -50%) scale(1.15);
+      transform-origin: center center;
+      width: auto;
+      object-fit: contain;
+      /* no background — image has transparent bg */
+      mix-blend-mode: multiply;
+      /* blends white bg of PNG away on the #f5f4f0 bg */
+      user-select: none;
+      filter: drop-shadow(0 20px 60px rgba(91, 91, 214, .15));
+    }
+
+    /* floating cards */
+    .f-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      padding: 14px 20px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0a0a0f;
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    .f-card-l {
+      top: 25%;
+      left: -30px;
+    }
+
+    .f-card-r {
+      top: 75%;
+      right: -30px;
+      z-index: 10;
+    }
+
+    .f-card-b {
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a0a0f;
+      color: white;
+      padding: 14px;
+      border-radius: 50px;
+      transition: all .4s cubic-bezier(.16, 1, .3, 1);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .f-card-b:hover {
+      padding: 14px 24px;
+      gap: 12px;
+      background: #5b5bd6;
+      box-shadow: 0 20px 40px rgba(91, 91, 214, 0.3);
+    }
+
+    .f-card-b-text {
+      max-width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: all .4s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .f-card-b:hover .f-card-b-text {
+      max-width: 150px;
+      opacity: 1;
+    }
+
+    .f-icon {
+      width: 20px;
+      height: 20px;
+      color: #5b5bd6
+    }
+
+    /* subtle accent ring behind image */
+    .hero-ring {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #5b5bd618 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ─── TYPEWRITER ─── */
+    .tw-wrap {
+      display: block;
+      /* prevent layout shift: the span inside grows but the h1 min-height absorbs it */
+    }
+
+    .tw-cursor {
+      display: inline-block;
+      width: 3px;
+      height: .75em;
+      background: #5b5bd6;
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+      border-radius: 2px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0
+      }
+    }
+
+    /* hero responsive */
+    @media(max-width:1100px) {
+
+      .f-card-l,
+      .f-card-r {
+        display: none
+      }
+    }
+
+    @media(max-width:860px) {
+      #home {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 100px 24px 60px;
+        min-height: auto;
+        gap: 24px;
+      }
+
+      .hero-visual {
+        display: none
+      }
+
+      .hero-content {
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero-tag {
+        margin-bottom: 24px;
+      }
+
+      .hero-h1 {
+        margin-bottom: 20px;
+      }
+
+      .hero-sub {
+        margin-bottom: 28px;
+      }
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-sec {
+      border: none;
+      background: transparent;
+      overflow: hidden;
+      padding: 20px 0
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: run 55s linear infinite
+    }
+
+    @media(max-width:860px) {
+      .marquee-track {
+        animation: run 40s linear infinite
+      }
+    }
+
+    @media(max-width:420px) {
+      .marquee-track {
+        animation: run 30s linear infinite
+      }
+    }
+
+    .marquee-sec:hover .marquee-track {
+      animation-play-state: paused
+    }
+
+    @keyframes run {
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .m-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 56px;
+      white-space: nowrap;
+      font-size: 15px;
+      font-weight: 700;
+      color: #9ca3af;
+      letter-spacing: -.01em;
+      transition: color .3s
+    }
+
+    .m-item:hover {
+      color: #0a0a0f
+    }
+
+    .m-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+      flex-shrink: 0;
+      transition: transform .3s, box-shadow .3s
+    }
+
+    .m-item:hover .m-icon {
+      transform: scale(1.12);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .12)
+    }
+
+    .m-div {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      flex-shrink: 0
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: transparent;
+      padding-top: 45px;
+      padding-bottom: 10px;
+    }
+
+    .about-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px
+    }
+
+    .about-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      padding: 6px 10px;
+      margin: 0 6px;
+      vertical-align: middle;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .about-badge:hover {
+      transform: translateY(-4px) scale(1.08);
+      background: rgba(255, 255, 255, 0.8);
+      border-color: #f43f5e;
+      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.2);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #5b5bd6;
+      margin-bottom: 20px
+    }
+
+    .design-frame-wrap {
+      text-align: center;
+      margin-bottom: 40px;
+      margin-top: 20px;
+    }
+
+    .design-frame {
+      display: inline-flex;
+      position: relative;
+      padding: 8px 18px;
+      border: 1.5px dashed #0a0a0f;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      transform: rotate(0deg);
+      user-select: none;
+      color: #0a0a0f;
+    }
+
+    .df-node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border: 1.5px solid #0a0a0f;
+    }
+
+    .df-node.tl {
+      top: -5px;
+      left: -5px;
+    }
+
+    .df-node.tr {
+      top: -5px;
+      right: -5px;
+    }
+
+    .df-node.bl {
+      bottom: -5px;
+      left: -5px;
+    }
+
+    .df-node.br {
+      bottom: -5px;
+      right: -5px;
+    }
+
+    .chat-window {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 32px;
+      overflow: hidden;
+      margin: 0 auto;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .chat-avatar-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #0ACF83, #1ABCFE, #A259FF);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chat-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+
+    .chat-header-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0a0a0f;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+
+    .chat-title {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    .chat-body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-height: 450px;
+      background: rgba(249, 249, 250, 0.3);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .chat-body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .msg-row {
+      display: flex;
+      width: 100%;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .msg-ahmed {
+      justify-content: flex-start;
+    }
+
+    .msg-user {
+      justify-content: flex-end;
+    }
+
+    .msg-bubble {
+      max-width: 80%;
+      padding: 16px 22px;
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    .msg-from-ahmed {
+      background: white;
+      color: #0a0a0f;
+      border-radius: 24px 24px 24px 4px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+
+    .msg-to-ahmed {
+      background: #f43f5e;
+      color: white;
+      border-radius: 24px 24px 4px 24px;
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.25);
+    }
+
+    .msg-cards {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      max-width: 85%;
+    }
+
+    .training-card {
+      background: white;
+      border: 1.5px solid rgba(91, 91, 214, 0.2);
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #5b5bd6;
+      box-shadow: 0 4px 12px rgba(91, 91, 214, 0.04);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .training-card:hover {
+      transform: translateY(-3px);
+      border-color: #5b5bd6;
+    }
+
+    .typing-indicator {
+      background: white;
+      padding: 16px 22px;
+      border-radius: 24px 24px 24px 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      width: fit-content;
+      height: 54px;
+    }
+
+    .chat-options {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .chat-option-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid rgba(91, 91, 214, 0.15);
+      padding: 12px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0a0a0f;
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    .chat-option-btn:hover {
+      background: #f43f5e;
+      color: white;
+      border-color: #f43f5e;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.2);
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .chat-header-msg {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5b5bd6;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .chat-header-msg:hover {
+      background: #5b5bd6;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(91, 91, 214, 0.25);
+    }
+
+    .contact-cards-sm {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .c-card-sm {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: white;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #0a0a0f;
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .c-card-sm:hover {
+      border-color: #5b5bd6;
+      color: #5b5bd6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .c-icon-sm {
+      font-size: 16px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 32px 24px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      transition: transform 0.3s;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      border-color: #5b5bd640;
+    }
+
+    .stat-box-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #f4f6fb;
+      color: #5b5bd6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .stat-box-num {
+      font-size: 40px;
+      font-weight: 900;
+      color: #0a0a0f;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-box-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    @media(max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #9ca3af;
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .typing-indicator span:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+      }
+
+      40% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects {
+      position: relative;
+      padding: 100px 0;
+      overflow: hidden;
+    }
+
+    .projects-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      z-index: 0;
+      opacity: 0.8;
+    }
+
+    .projects-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+      gap: 20px
+    }
+
+    .section-h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      line-height: 1
+    }
+
+    .proj-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 48px
+    }
+
+    .proj-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 32px;
+      overflow: hidden;
+      transition: box-shadow .3s, transform .3s;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 24px;
+      gap: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .proj-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        -18px 18px 0 0 white,
+        -18px 18px 0 1px #e5e7eb,
+        -18px 30px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    .proj-card.reverse {
+      direction: rtl
+    }
+
+    .proj-card.reverse>* {
+      direction: ltr
+    }
+
+    .proj-visual {
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .proj-mockup {
+      width: 100%;
+      max-width: 280px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .12);
+      overflow: hidden;
+      transition: transform .5s
+    }
+
+    .proj-card:hover .proj-mockup {
+      transform: translateY(-12px) rotate(-1deg)
+    }
+
+    .mockup-bar {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 5px;
+      border-bottom: 1px solid #f0f0f0
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%
+    }
+
+    .mockup-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .mock-blk {
+      border-radius: 8px;
+      background: #f0f0f0
+    }
+
+    .mock-row {
+      display: flex;
+      gap: 8px
+    }
+
+    .proj-info {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .proj-num {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #d1d5db;
+      margin-bottom: 16px
+    }
+
+    .proj-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      margin-bottom: 12px;
+      line-height: 1.1
+    }
+
+    .proj-desc {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #6b7280;
+      margin-bottom: 32px
+    }
+
+    .proj-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 32px
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: #f5f5f5;
+      color: #6b7280
+    }
+
+    .proj-btns {
+      display: flex;
+      gap: 10px
+    }
+
+    .pbtn {
+      padding: 12px 22px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      transition: all .2s
+    }
+
+    .pbtn-dark {
+      background: #0a0a0f;
+      color: white
+    }
+
+    .pbtn-dark:hover {
+      background: #f43f5e
+    }
+
+    .pbtn-behance {
+      background: #0a0a0f;
+      color: white;
+      text-decoration: none !important;
+    }
+
+    .pbtn-behance:hover {
+      background: #0057ff !important;
+      color: white !important;
+    }
+
+    .pbtn-light {
+      background: #f5f5f5;
+      color: #0a0a0f;
+      border: none
+    }
+
+    .pbtn-light:hover {
+      background: #ebebeb
+    }
+
+    /* ─── GLOBAL UTILS & ANIMATIONS ─── */
+    .view-more-wrapper {
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    .view-more-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    @keyframes simplePulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(91, 91, 214, 0.4);
+      }
+
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(91, 91, 214, 0);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(91, 91, 214, 0);
+      }
+    }
+
+    .btn-pulse {
+      animation: simplePulse 2s infinite;
+    }
+
+    /* ─── SERVICES ─── */
+    #services {
+      padding: 100px 0;
+      background: transparent;
+      color: #0a0a0f;
+    }
+
+    .services-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .srv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .srv-card-wrap {
+      height: 320px;
+    }
+
+    .srv-card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 24px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+
+    .srv-card-wrap:hover .srv-card-inner {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.1);
+    }
+
+    .srv-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #f4f6fb;
+      color: #5b5bd6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .srv-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 12px;
+      color: #0a0a0f;
+    }
+
+    .srv-desc {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    .srv-build-btn {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      width: calc(100% - 48px);
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      justify-content: center;
+    }
+
+    .srv-card-wrap:hover .srv-build-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modal Form */
+    .booking-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .popup-content {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
+      position: relative;
+      transform: translateY(20px);
+      animation: slideUp 0.3s forwards;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      animation: fadeIn 0.3s forwards;
+    }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: transparent;
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      z-index: 0;
+      opacity: 0.8;
+    }
+
+    .contact-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px
+    }
+
+    .contact-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-bottom: 60px
+    }
+
+    .contact-h2 {
+      font-size: clamp(34px, 4vw, 56px);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: 1.05;
+      color: #0a0a0f;
+      margin-bottom: 16px
+    }
+
+    .contact-p {
+      font-size: 15px;
+      color: #6b7280;
+      line-height: 1.8;
+      margin-bottom: 36px
+    }
+
+    .avail-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 28px
+    }
+
+    .avail-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      flex-shrink: 0;
+      animation: pulse-g 2s ease-in-out infinite
+    }
+
+    @keyframes pulse-g {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, .4)
+      }
+
+      50% {
+        box-shadow: 0 0 0 5px rgba(34, 197, 94, 0)
+      }
+    }
+
+    .cinfo-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .cinfo-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+      color: #0a0a0f;
+      transition: all .25s
+    }
+
+    .cinfo-card:hover {
+      background: #f8f9fa;
+      border-color: #d1d5db;
+      transform: translateX(4px)
+    }
+
+    .cinfo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #f4f6fb;
+      color: #5b5bd6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .cinfo-tiny {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 2px
+    }
+
+    .cinfo-val {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0a0a0f
+    }
+
+    /* form on dark */
+    .dark-form {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .dark-frow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px
+    }
+
+    .dark-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 8px
+    }
+
+    .dark-input {
+      width: 100%;
+      background: white;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #0a0a0f;
+      outline: none;
+      transition: all .25s
+    }
+
+    .dark-input::placeholder {
+      color: #9ca3af
+    }
+
+    .dark-input:focus {
+      border-color: #5b5bd6;
+      background: white;
+      box-shadow: 0 0 0 3px #5b5bd618
+    }
+
+    .dark-send {
+      width: 100%;
+      background: #5b5bd6;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      transition: all .25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px
+    }
+
+    .dark-send:hover {
+      background: #f43f5e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.3)
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: transparent;
+      padding: 80px 48px 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-statement {
+      font-size: clamp(40px, 7vw, 100px);
+      font-weight: 900;
+      letter-spacing: -.05em;
+      line-height: .92;
+      color: white;
+      margin-bottom: 60px;
+      text-transform: uppercase
+    }
+
+    .footer-statement em {
+      font-style: normal;
+      color: #5b5bd6
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid #e5e7eb;
+      flex-wrap: wrap;
+      gap: 16px
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: #4b5563
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .footer-links a:hover {
+      color: #5b5bd6
+    }
+
+    .footer-btns {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 48px
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:900px) {
+      .contact-top {
+        grid-template-columns: 1fr
+      }
+
+      .dark-form {
+        padding: 16px;
+        gap: 16px;
+        border-radius: 20px;
+        box-shadow: -6px 6px 0 0 white, -6px 6px 0 1px #e5e7eb, -6px 12px 20px rgba(0, 0, 0, 0.04);
+      }
+
+      .proj-card,
+      .proj-card.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        padding: 12px;
+        gap: 12px;
+        border-radius: 20px;
+        box-shadow: -6px 6px 0 0 white, -6px 6px 0 1px #e5e7eb, -6px 12px 20px rgba(0, 0, 0, 0.04);
+      }
+
+      .proj-card:hover {
+        transform: translateY(-2px);
+        box-shadow: -8px 8px 0 0 white, -8px 8px 0 1px #e5e7eb, -8px 16px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      .proj-visual {
+        min-height: 180px;
+        padding: 0;
+        border-radius: 12px;
+      }
+
+      .proj-visual img {
+        object-fit: contain !important;
+        border-radius: 12px !important;
+      }
+
+      .proj-info {
+        padding: 12px 4px;
+      }
+
+      .proj-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+
+      .proj-desc {
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      .proj-tags {
+        margin-bottom: 16px;
+      }
+
+      .tag {
+        font-size: 10px;
+        padding: 4px 10px;
+      }
+
+      .pbtn {
+        padding: 10px 16px;
+        font-size: 12px;
+      }
+
+      .chat-header {
+        padding: 16px;
+      }
+
+      .chat-body {
+        padding: 24px 16px;
+        min-height: auto;
+      }
+
+      .msg-bubble {
+        max-width: 95%;
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+
+      .proj-card.reverse>* {
+        direction: ltr
+      }
+
+      .srv-grid {
+        grid-template-columns: 1fr
+      }
+
+      .dark-frow {
+        grid-template-columns: 1fr
+      }
+
+      .about-wrap,
+      .contact-wrap,
+      .projects-inner,
+      .services-inner {
+        padding: 0 24px
+      }
+
+      #services {
+        padding: 80px 0 60px
+      }
+
+      footer {
+        padding: 80px 24px 60px
+      }
+    }
+
+    @media(max-width:768px) {
+      /* Let mobile use its natural touch behavior */
+    }
+
+    body.menu-open .bottom-nav {
+      display: none !important;
+    }
+
+    @media(max-width:860px) {
+
+      .hero-actions,
+      .proj-btns,
+      .mobile-menu-cta,
+      .footer-cta {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .hero-actions>*,
+      .proj-btns>*,
+      .mobile-menu-cta>*,
+      .footer-cta>* {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ─── SCROLL TO TOP ─── */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 30px rgba(244, 63, 94, 0.12);
+      color: #f43f5e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.8) translateY(10px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+    }
+
+    .scroll-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+
+    .scroll-to-top:hover {
+      background: #f43f5e;
+      color: white;
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 12px 35px rgba(244, 63, 94, 0.25);
+      border-color: #f43f5e;
+    }
+
+    .scroll-to-top svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .scroll-to-top:hover svg {
+      transform: translateY(-2px);
+    }
+
+    /* ─── SCHEDULE MEETING SECTION ─── */
+    #schedule {
+      background: transparent;
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .schedule-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    @media(max-width: 900px) {
+      .schedule-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .schedule-wrap {
+        padding: 0 24px;
+      }
+    }
+
+    .schedule-info-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .schedule-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5b5bd6;
+      background: rgba(91, 91, 214, 0.08);
+      padding: 6px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .schedule-h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #0a0a0f;
+      margin-bottom: 16px;
+    }
+
+    .schedule-p {
+      font-size: 15px;
+      color: #6b7280;
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .schedule-details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .sched-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .sched-detail-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .sched-detail-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sched-detail-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0a0a0f;
+      margin-top: 2px;
+    }
+
+    /* Custom Interactive Calendar */
+    .calendar-container {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .calendar-header-ui {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    .calendar-btn-nav {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #ffffff;
+      transition: all 0.2s;
+    }
+
+    .calendar-btn-nav:hover {
+      background: #fff5f6;
+      border-color: rgba(244, 63, 94, 0.3);
+      color: #f43f5e;
+    }
+
+    .calendar-grid-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .calendar-day-header {
+      font-size: 11px;
+      font-weight: 800;
+      color: #9ca3af;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+    }
+
+    .calendar-day-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #ffffff;
+    }
+
+    .calendar-day-cell:hover:not(.disabled) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .calendar-day-cell.selected {
+      background: #f43f5e !important;
+      color: white !important;
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+    }
+
+    .calendar-day-cell.disabled {
+      color: rgba(255, 255, 255, 0.2);
+      cursor: not-allowed;
+    }
+
+    .calendar-day-cell.today {
+      border: 2px solid #f43f5e;
+    }
+
+    .slots-container {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 20px;
+    }
+
+    .slots-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .slot-item {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      text-align: center;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      color: #ffffff;
+      transition: all 0.2s;
+    }
+
+    .slot-item:hover:not(.selected) {
+      border-color: rgba(244, 63, 94, 0.5);
+      color: #f43f5e;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .slot-item.selected {
+      background: #f43f5e;
+      color: white;
+      border-color: #f43f5e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    /* ─── NATIVE CSS CURSOR USED INSTEAD OF JS ─── */
+
+    /* ─── SCROLL REVEAL ─── */
+    function useScrollReveal(ref, delay = 0) {
+      useEffect(() => {
+        const el = ref.current; if (!el) return;
+        el.style.transitionDelay = `${delay}ms`;
+        const obs = new IntersectionObserver(([e]) => {
+          if (e.isIntersecting) { el.classList.add('visible'); obs.unobserve(el) }
+        }, { threshold: .12 });
+        obs.observe(el); return () => obs.disconnect();
+      }, []);
+    }
+    const R = ({ children, d = 0, className = '' }) => {
+      const r = useRef();
+      useScrollReveal(r, d);
+      return <div ref={r} className={`reveal ${className}`}>{children}</div>;
+    };
+
+    /* ─── SVGs ─── */
+    const Svg = {
+      download: <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>,
+      arrow: <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>,
+      mail: <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-10 7L2 7" /></svg>,
+      linkedin: <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>,
+      check: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>,
+      monitor: <svg width="26" height="26" fill="none" stroke="#5b5bd6" strokeWidth="1.75" strokeLinecap="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>,
+      layout: <svg width="26" height="26" fill="none" stroke="#5b5bd6" strokeWidth="1.75" strokeLinecap="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" /></svg>,
+      phone: <svg width="26" height="26" fill="none" stroke="#5b5bd6" strokeWidth="1.75" strokeLinecap="round" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" /><line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="3" /></svg>,
+      menu: <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8" /><line x1="4" y1="16" x2="20" y2="16" /></svg>,
+      close: <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>,
+      behance: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.546-1.436-2.35-2.461-2.35-.911 0-2.342.668-2.504 2.35zm-8.534-11v18h4.597c2.19 0 3.791-.259 4.887-1.427 1.09-1.162 1.32-2.825.438-4.184.898-1.077 1.242-2.735.088-3.978-1.127-1.22-2.613-1.411-4.757-1.411h-5.253zm3.5 11h1.492c1.078 0 2.213.253 2.213 1.5 0 1.258-1.196 1.5-2.213 1.5h-1.492v-3zm0-7h1.487c.725 0 1.947.23 1.947 1.341 0 1.242-1.354 1.298-2.115 1.298h-1.319v-2.639z" /></svg>,
+      figma: <svg width="22" height="22" viewBox="0 0 38 57" fill="none"><path d="M19 28.5C19 33.7467 14.7467 38 9.5 38C4.25329 38 0 33.7467 0 28.5C0 23.2533 4.25329 19 9.5 19H19V28.5Z" fill="#0ACF83" /><path d="M0 47.5C0 52.7467 4.25329 57 9.5 57C14.7467 57 19 52.7467 19 47.5V38H9.5C4.25329 38 0 42.2533 0 47.5Z" fill="#A259FF" /><path d="M19 0H9.5C4.25329 0 0 4.2533 0 9.5C0 14.7467 4.25329 19 9.5 19H19V0Z" fill="#F24E1E" /><path d="M19 19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.2533 33.7467 0 28.5 0H19V19Z" fill="#FF7262" /><path d="M38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5Z" fill="#1ABCFE" /></svg>,
+      home: <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>,
+      user: <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>,
+      briefcase: <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>,
+    };
+
+    /* ─── NAVBAR ─── */
+    const Navbar = () => {
+      const [scrolled, setScrolled] = useState(false);
+      const [isOpen, setIsOpen] = useState(false);
+      const [activeId, setActiveId] = useState('home');
+
+      useEffect(() => {
+        const handleScroll = () => {
+          setScrolled(window.scrollY > 30);
+
+          const scrollPos = window.scrollY + window.innerHeight * 0.5;
+          let currentId = 'home';
+          const ids = ['home', 'about', 'projects', 'services', 'contact', 'booking'];
+          for (let i = ids.length - 1; i >= 0; i--) {
+            const section = document.getElementById(ids[i]);
+            if (section && section.offsetTop <= scrollPos) {
+              currentId = ids[i];
+              break;
+            }
+          }
+          setActiveId(currentId);
+        };
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      useEffect(() => {
+        if (isOpen) {
+          document.body.style.overflow = 'hidden';
+          document.body.classList.add('menu-open');
+        } else {
+          document.body.style.overflow = '';
+          document.body.classList.remove('menu-open');
+        }
+      }, [isOpen]);
+
+      return (
+        <>
+          <nav className={scrolled ? 'scrolled' : ''}>
+            <div className="nav-pill" style={{ zIndex: 100 }}>
+
+              {/* Logo */}
+              <div className="logo" style={{ zIndex: 101, alignItems: 'center' }}>
+                <img src="images/logo.png" alt="Logo" className="nav-logo-img" />
+              </div>
+
+              {/* Center links */}
+              <div className="nav-links">
+                {['Home', 'About', 'Projects', 'Services', 'Contact', 'Booking'].map(l => (
+                  <a key={l} href={`#${l.toLowerCase()}`} className={activeId === l.toLowerCase() ? 'active-nav' : ''}>{l}</a>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="nav-cta">
+                <a href="#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Let's Talk</a>
+              </div>
+
+              {/* Mobile Toggle with 2-line transition animation */}
+              <button
+                className={`nav-toggle ${isOpen ? 'open' : ''}`}
+                style={{
+                  zIndex: 101,
+                  width: '32px',
+                  height: '32px',
+                  position: 'relative'
+                }}
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <span style={{
+                  width: '20px',
+                  height: '2px',
+                  background: 'currentColor',
+                  position: 'absolute',
+                  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  top: isOpen ? '15px' : '11px',
+                  transform: isOpen ? 'rotate(45deg)' : 'none'
+                }} />
+                <span style={{
+                  width: '20px',
+                  height: '2px',
+                  background: 'currentColor',
+                  position: 'absolute',
+                  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  top: isOpen ? '15px' : '19px',
+                  transform: isOpen ? 'rotate(-45deg)' : 'none'
+                }} />
+              </button>
+
+            </div>
+          </nav>
+
+          {/* Mobile Menu */}
+          <div className={`mobile-menu ${isOpen ? 'open' : ''}`} style={{ background: 'rgba(255, 255, 255, 0.98)' }}>
+            {['Home', 'About', 'Projects', 'Services', 'Contact', 'Booking'].map(l => (
+              <a key={l} href={`#${l.toLowerCase()}`} className={`m-link ${activeId === l.toLowerCase() ? 'active-nav' : ''}`} onClick={() => setIsOpen(false)} style={{ color: '#0a0a0f' }}>{l}</a>
+            ))}
+            <div className="mobile-menu-cta" style={{ width: '100%', padding: '0 24px' }}>
+              <a href="#contact" className="btn-primary" style={{ textDecoration: 'none', width: '100%', justifyContent: 'center' }} onClick={() => setIsOpen(false)}>Let's Talk</a>
+            </div>
+          </div>
+        </>
+      );
+    };
+
+    /* ─── TYPEWRITER ─── */
+    const Typewriter = () => {
+      const phrases = ["Turn your idea\ninto a digital product.", "Crafting\nUser-Centric Designs.", "Solving\nComplex Problems."];
+      const [pi, setPi] = useState(0);
+      const [txt, setTxt] = useState('');
+      const [del, setDel] = useState(false);
+      useEffect(() => {
+        const p = phrases[pi];
+        const t = setTimeout(() => {
+          if (!del && txt === p) setTimeout(() => setDel(true), 2200);
+          else if (del && txt === '') { setDel(false); setPi(i => (i + 1) % phrases.length) }
+          else setTxt(p.substring(0, txt.length + (del ? -1 : 1)));
+        }, del ? 20 : 50);
+        return () => clearTimeout(t);
+      }, [txt, del, pi]);
+      return (
+        <span className="tw-wrap">
+          {txt.split('\n').map((line, i) => (
+            <span key={i} style={{ display: 'block' }}>{line}{i === txt.split('\n').length - 1 && <span className="tw-cursor" />}</span>
+          ))}
+        </span>
+      );
+    };
+
+    /* ─── HERO ─── */
+    const Hero = () => {
+      return (
+        <section id="home">
+          <div className="hero-bg"><div className="hero-line-grid" /></div>
+          <div className="hero-inner">
+            {/* ── LEFT: all content stacked ── */}
+            <div className="hero-content">
+              {/* Tag */}
+              <div className="hero-tag">
+                <div className="hero-tag-dot">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                </div>
+                Available for bookings
+              </div>
+
+              {/* h1 has branding copy */}
+              <h1 className="hero-h1" style={{ display: 'block' }}>Stop Posting for Views. Start Creating for Revenue.</h1>
+
+              {/* Sub copy */}
+              <p className="hero-sub">I help Business Owners build high-converting, monetization-focused personal brands that turn casual viewers into qualified high-ticket leads.</p>
+
+              {/* CTA buttons */}
+              <div className="hero-actions" style={{ gap: '12px', display: 'flex', alignItems: 'center' }}>
+                <a href="#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Let's Talk</a>
+                <a href="#video" className="btn-ghost" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                  Watch Vid
+                </a>
+              </div>
+            </div>
+
+            {/* ── RIGHT: image ── */}
+            <div className="hero-visual">
+              <div className="hero-ring" />
+              <div className="hero-img-wrap">
+                <img
+                  src="images/ChatGPT Image 17 يوليو 2026، 07_29_48 ص.png"
+                  alt="Kacper — Personal Brand Specialist"
+                  className="hero-img"
+                  style={{
+                    mixBlendMode: 'multiply',
+                    filter: 'none',
+                    transform: 'translate(-50%, -50%) scale(1.1)',
+                    top: '50%',
+                    left: '55%',
+                    position: 'absolute'
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ─── MARQUEE ─── */
+    const Marquee = () => {
+      const logos = [
+        "images/Notion-Emblem.png",
+        "images/Youtube-Logo.png",
+        "images/Linkedin_logo_PNG4.png",
+        "images/Instagram_logo_PNG16.png",
+        "images/Facebook_logo_PNG9.png"
+      ];
+      const all = [...logos, ...logos, ...logos, ...logos, ...logos, ...logos];
+      return (
+        <div className="marquee-sec" style={{ background: 'transparent', border: 'none', margin: '50px 0', padding: '10px 0' }}>
+          <div className="marquee-track">
+            {all.map((src, i) => (
+              <div key={i} className="m-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 50px' }}>
+                <img
+                  src={src}
+                  alt="Partner Logo"
+                  style={{
+                    height: '50px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    opacity: 0.6,
+                    filter: 'grayscale(100%)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.opacity = '1';
+                    e.currentTarget.style.filter = 'none';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.opacity = '0.6';
+                    e.currentTarget.style.filter = 'grayscale(100%)';
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    /* ─── ABOUT ─── */
+    const About = () => {
+      const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+      const [messages, setMessages] = useState([
+        { sender: 'ahmed', text: "Hey! I'm Kacper. How can I help you build your personal brand today? Ask me anything about my services below!" }
+      ]);
+      const [typing, setTyping] = useState(false);
+      const chatEndRef = useRef(null);
+
+      const [availableQuestions, setAvailableQuestions] = useState([
+        {
+          id: 1,
+          q: "What services do you offer?",
+          a: "I offer Brand & Niche Strategy, Scriptwriting & Hook Engineering, and Post-Production & Editing to grow your digital presence."
+        },
+        {
+          id: 2,
+          q: "How do we get started?",
+          a: "Simply scroll down to my calendar and book a session, or click 'Let's Talk' to send a request."
+        },
+        {
+          id: 3,
+          q: "Do you offer custom packages?",
+          a: "Yes! Every personal brand is unique. We can tailor a custom design and script package specifically for your needs."
+        }
+      ]);
+
+      useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+      }, []);
+
+      useEffect(() => {
+        if (isMobile) {
+          const chatBody = document.querySelector('.chat-body');
+          if (chatBody) {
+            chatBody.scrollTo({
+              top: chatBody.scrollHeight,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }, [messages, typing, isMobile]);
+
+      const handleQuestionClick = (item) => {
+        if (typing) return;
+        setMessages(prev => [...prev, { sender: 'user', text: item.q }]);
+        setAvailableQuestions(prev => prev.filter(q => q.id !== item.id));
+        setTyping(true);
+
+        setTimeout(() => {
+          setMessages(prev => [...prev, { sender: 'ahmed', text: item.a }]);
+          setTyping(false);
+        }, 1000);
+      };
+
+      return (
+        <section id="about" style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Dot grid background */}
+          <div className="about-grid-bg" style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px)',
+            backgroundSize: '32px 32px',
+            zIndex: 0,
+            opacity: 0.8,
+            pointerEvents: 'none'
+          }} />
+
+
+
+          <div className="about-wrap" style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px 24px', position: 'relative', zIndex: 1 }}>
+            {isMobile ? (
+              <div style={{ padding: '10px 0' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '100px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#0a0a0f', background: 'transparent' }}>
+                    About me
+                  </span>
+                </div>
+                <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>The Brain Behind The Screen</h2>
+                <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Turn complex business ideas into high-converting</p>
+
+                <div className="chat-window" style={{ maxWidth: '100%', margin: '0 auto', textAlign: 'left', overflow: 'hidden' }}>
+                  <div className="chat-header">
+                    <div className="chat-header-left">
+                      <div className="chat-avatar-wrap">
+                        <img src="images/logo.png" className="chat-avatar" alt="Kacper" />
+                      </div>
+                      <div className="chat-header-info">
+                        <div className="chat-name">Kacper <div className="online-dot" /></div>
+                        <div className="chat-title">Personal Brand Specialist</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="chat-body" style={{ minHeight: '260px', maxHeight: '340px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+                    {messages.map((msg, idx) => (
+                      <div key={idx} className={`msg-row ${msg.sender === 'user' ? 'msg-user' : 'msg-ahmed'}`} style={{ animation: 'fadeInUp 0.3s ease-out' }}>
+                        <div className={`msg-bubble ${msg.sender === 'user' ? 'msg-to-ahmed' : 'msg-from-ahmed'}`}>
+                          {msg.text}
+                        </div>
+                      </div>
+                    ))}
+                    {typing && (
+                      <div className="msg-row msg-ahmed" style={{ animation: 'fadeInUp 0.2s ease-out' }}>
+                        <div className="typing-indicator" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                          <span /><span /><span />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Inline Recommended Questions placed directly after the response */}
+                    {!typing && availableQuestions.length > 0 && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px', width: '100%', animation: 'fadeInUp 0.3s ease-out' }}>
+                        {availableQuestions.map((item) => (
+                          <button
+                            key={item.id}
+                            className="chat-option-btn"
+                            onClick={() => handleQuestionClick(item)}
+                            style={{
+                              width: '100%',
+                              fontSize: '13px',
+                              textAlign: 'left',
+                              background: '#ffffff',
+                              border: '1px solid rgba(0, 0, 0, 0.03)',
+                              borderRadius: '24px 24px 24px 4px',
+                              padding: '12px 18px',
+                              color: '#0a0a0f',
+                              fontWeight: '600',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s ease',
+                              outline: 'none',
+                              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.02)'
+                            }}
+                            onMouseEnter={e => {
+                              e.currentTarget.style.background = '#f43f5e';
+                              e.currentTarget.style.color = '#ffffff';
+                              e.currentTarget.style.borderColor = '#f43f5e';
+                            }}
+                            onMouseLeave={e => {
+                              e.currentTarget.style.background = '#ffffff';
+                              e.currentTarget.style.color = '#0a0a0f';
+                              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.03)';
+                            }}
+                          >
+                            {item.q}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div ref={chatEndRef} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <R>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '100px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#0a0a0f', background: 'transparent' }}>
+                      About me
+                    </span>
+                  </div>
+                </R>
+                <R d={50}>
+                  <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>The Brain Behind The Screen</h2>
+                </R>
+                <R d={75}>
+                  <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Turn complex business ideas into high-converting</p>
+                </R>
+                <R d={100}>
+                  <div className="about-paragraph-container" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: '500', color: '#0a0a0f', lineHeight: '2.0', letterSpacing: '-0.015em', maxWidth: '1000px', margin: '0 auto', textAlign: 'center', transition: 'all 0.4s ease' }}>
+                    "We craft high-impact <span className="about-badge">
+                      <img src="images/3dicons-notebook-dynamic-color.png" alt="Notebook" style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }} />
+                    </span> scripts that capture <span className="about-badge">
+                      <img src="images/3dicons-target-front-color.png" alt="Target" style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }} />
+                    </span> attention in the first 3 seconds, transforming passive <span className="about-badge">
+                      <img src="images/3dicons-boy-front-color.png" alt="Viewer" style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }} />
+                    </span> viewers into high-ticket <span className="about-badge">
+                      <img src="images/3dicons-wallet-iso-color.png" alt="Wallet" style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }} />
+                    </span> clients for your business."
+                  </div>
+                </R>
+              </>
+            )}
+          </div>
+        </section>
+      );
+    };
+
+    /* ─── PROJECTS ─── */
+    const Projects = () => {
+      const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+      const [activeTab, setActiveTab] = useState(0);
+      const [slideIndices, setSlideIndices] = useState({
+        youtube: 0,
+        linkedin: 0,
+        notion: 0
+      });
+
+      useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+      }, []);
+
+      const tabs = [
+        {
+          id: 'youtube',
+          logo: 'images/Youtube-Logo.png',
+          title: 'YouTube Growth & Video Eng.',
+          accentColor: 'linear-gradient(to bottom, rgba(255, 0, 0, 0.16) 0%, #ffffff 100%)',
+          borderColor: 'rgba(255, 0, 0, 0.12)',
+          slides: [
+            {
+              title: "High-Retention Scripts",
+              description: "Crafting strategic scripts and hooks engineered to capture audience attention within the first 3 seconds."
+            },
+            {
+              title: "CTR & Thumbnail Strategy",
+              description: "Optimizing layout parameters and visual contrast to maximize organic click-through rates."
+            },
+            {
+              title: "Pacing & Post-Production",
+              description: "Applying dynamic sound design and editing blocks to maintain high session retention rates."
+            }
+          ]
+        },
+        {
+          id: 'linkedin',
+          logo: 'images/Linkedin_logo_PNG4.png',
+          title: 'LinkedIn Authority Branding',
+          accentColor: 'linear-gradient(to bottom, rgba(10, 102, 194, 0.16) 0%, #ffffff 100%)',
+          borderColor: 'rgba(10, 102, 194, 0.15)',
+          slides: [
+            {
+              title: "Authority Carousels",
+              description: "Designing high-value carousels and visual assets that position you as an industry leader."
+            },
+            {
+              title: "Hook Optimization",
+              description: "Drafting engaging introductory text hooks that invite comments and shares."
+            },
+            {
+              title: "Consistency Blueprint",
+              description: "Establishing a posting calendar to stay top-of-mind for prospective B2B clients."
+            }
+          ]
+        },
+        {
+          id: 'notion',
+          logo: 'images/Notion-Emblem.png',
+          title: 'Notion Workflow Setup',
+          accentColor: 'linear-gradient(to bottom, rgba(15, 15, 15, 0.12) 0%, #ffffff 100%)',
+          borderColor: 'rgba(15, 15, 15, 0.12)',
+          slides: [
+            {
+              title: "Brand Hubs",
+              description: "Centralizing your creative assets, guidelines, and media library in one single source of truth."
+            },
+            {
+              title: "Content Pipeline Database",
+              description: "Building relational databases to track your pipeline from ideation to publishing."
+            },
+            {
+              title: "Custom Workspace templates",
+              description: "Designing bespoke workspace setups suited for your team size and operational speed."
+            }
+          ]
+        }
+      ];
+
+      const handlePrevSlide = (tabId, max) => {
+        setSlideIndices(prev => ({ ...prev, [tabId]: (prev[tabId] - 1 + max) % max }));
+      };
+
+      const handleNextSlide = (tabId, max) => {
+        setSlideIndices(prev => ({ ...prev, [tabId]: (prev[tabId] + 1) % max }));
+      };
+
+      return (
+        <section id="projects" style={{ position: 'relative', overflow: 'hidden', padding: '80px 24px' }}>
+          {/* Dot grid points background */}
+          <div className="projects-grid-bg" style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px)',
+            backgroundSize: '32px 32px',
+            opacity: 0.8,
+            zIndex: 0,
+            pointerEvents: 'none'
+          }} />
+
+          <div className="projects-inner" style={{ position: 'relative', zIndex: 1, padding: 0 }}>
+            {/* Centered Capsule Header styled like About Section */}
+            <R>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '100px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#0a0a0f', background: 'transparent' }}>
+                  Work Process
+                </span>
+              </div>
+            </R>
+            <R d={50}>
+              <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>How the Process is Done</h2>
+            </R>
+            <R d={75}>
+              <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>From strategy and scripting to post-production and editing — here is how we build your brand authority.</p>
+            </R>
+
+            {/* Accordion Tabs System */}
+            <div style={{ width: '100%', marginTop: '16px' }}>
+              {isMobile ? (
+                /* Mobile Vertical Accordion Stack */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+                  {tabs.map((tab, idx) => {
+                    const isActive = activeTab === idx;
+                    return (
+                      <div 
+                        key={tab.id}
+                        onClick={!isActive ? () => setActiveTab(idx) : undefined}
+                        style={{
+                          background: tab.accentColor,
+                          border: isActive ? `1px solid ${tab.borderColor}` : '1px solid rgba(0, 0, 0, 0.05)',
+                          borderRadius: '24px',
+                          padding: isActive ? '24px 20px 32px' : '16px 20px',
+                          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                          boxShadow: isActive ? '0 10px 30px rgba(0,0,0,0.02)' : 'none',
+                          overflow: 'hidden',
+                          cursor: isActive ? 'default' : 'pointer'
+                        }}
+                      >
+                        {!isActive ? (
+                          <div 
+                            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px 0' }}
+                          >
+                            <img src={tab.logo} alt="" style={{ width: '150px', height: 'auto', objectFit: 'contain', opacity: 0.7 }} />
+                          </div>
+                        ) : (
+                          <div style={{ animation: 'fadeInUp 0.3s ease-out' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px', textAlign: 'center' }}>
+                              <img src={tab.logo} alt="" style={{ width: '90px', height: '90px', objectFit: 'contain' }} />
+                              <span style={{ fontSize: '18px', fontWeight: '800', color: '#0a0a0f' }}>{tab.title}</span>
+                            </div>
+                            
+                            {/* Inner Carousel Card Content with Stacked Layers */}
+                            <div style={{ position: 'relative', width: '90%', margin: '0 auto 12px', zIndex: 1 }}>
+                              {/* Stacked Layer 3 (deepest) */}
+                              <div style={{ position: 'absolute', bottom: '-10px', left: '12px', right: '12px', height: '20px', background: '#ffffff', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '20px', zIndex: -3, boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }} />
+                              {/* Stacked Layer 2 */}
+                              <div style={{ position: 'absolute', bottom: '-5px', left: '6px', right: '6px', height: '20px', background: '#ffffff', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '20px', zIndex: -2, boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }} />
+                              
+                              {/* Main Content Box */}
+                              <div style={{ 
+                                background: '#ffffff', 
+                                border: '1px solid rgba(0,0,0,0.06)', 
+                                borderRadius: '20px', 
+                                padding: '24px 16px', 
+                                textAlign: 'center',
+                                backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.06) 1.5px, transparent 1.5px)',
+                                backgroundSize: '16px 16px',
+                                position: 'relative',
+                                zIndex: 1
+                              }}>
+                                <h4 style={{ fontSize: '15px', fontWeight: '700', color: '#0a0a0f', marginBottom: '6px' }}>
+                                  {tab.slides[slideIndices[tab.id]].title}
+                                </h4>
+                                <p style={{ fontSize: '13px', color: '#4b5563', lineHeight: '1.5', margin: 0 }}>
+                                  {tab.slides[slideIndices[tab.id]].description}
+                                </p>
+                              </div>
+
+                              {/* Stacked Left Arrow */}
+                              <button 
+                                onClick={() => handlePrevSlide(tab.id, tab.slides.length)} 
+                                style={{ position: 'absolute', left: '-16px', top: '50%', transform: 'translateY(-50%)', zIndex: 5, background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', color: '#000000' }}
+                              >
+                                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                              </button>
+
+                              {/* Stacked Right Arrow */}
+                              <button 
+                                onClick={() => handleNextSlide(tab.id, tab.slides.length)} 
+                                style={{ position: 'absolute', right: '-16px', top: '50%', transform: 'translateY(-50%)', zIndex: 5, background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', color: '#000000' }}
+                              >
+                                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                /* Desktop/Tablet Horizontal Accordion Tabs */
+                <div style={{ display: 'flex', gap: '20px', width: '100%', minHeight: '440px', overflow: 'hidden' }}>
+                  {tabs.map((tab, idx) => {
+                    const isActive = activeTab === idx;
+                    return (
+                      <div
+                        key={tab.id}
+                        onClick={!isActive ? () => setActiveTab(idx) : undefined}
+                        style={{
+                          flex: isActive ? '3.5 1 0%' : '0.6 1 0%',
+                          background: tab.accentColor,
+                          border: isActive ? `1px solid ${tab.borderColor}` : '1px solid rgba(0, 0, 0, 0.05)',
+                          borderRadius: '32px',
+                          padding: '32px',
+                              transition: 'all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                          boxShadow: isActive ? '0 20px 40px rgba(0,0,0,0.02)' : 'none',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {/* Dot Grid Background with Opacity inside card */}
+                        <div style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.08) 1.5px, transparent 1.5px)',
+                          backgroundSize: '24px 24px',
+                          opacity: isActive ? 0.8 : 0.3,
+                          pointerEvents: 'none',
+                          zIndex: 0
+                        }} />
+
+                        {!isActive ? (
+                          /* Collapsed Card Content (Horizontal Logo Rotated 90 degrees vertically) */
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', zIndex: 1, pointerEvents: 'none', animation: 'fadeIn 0.4s' }}>
+                            <img 
+                              src={tab.logo} 
+                              alt="" 
+                              style={{ 
+                                width: '100px', 
+                                height: 'auto', 
+                                objectFit: 'contain', 
+                                transform: 'rotate(-90deg)',
+                                opacity: 0.65 
+                              }} 
+                            />
+                          </div>
+                        ) : (
+                          /* Expanded Card Content with active animation class */
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', zIndex: 1, animation: 'fadeIn 0.5s' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '32px' }}>
+                              <img src={tab.logo} alt="" style={{ height: '70px', width: 'auto', objectFit: 'contain', marginBottom: '16px' }} />
+                              <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#0a0a0f', margin: 0, textAlign: 'center', letterSpacing: '-0.02em' }}>
+                                {tab.title}
+                              </h3>
+                            </div>
+
+                            {/* Carousel content box with stacked layered background cards */}
+                            <div style={{ position: 'relative', width: '100%', maxWidth: '440px', margin: '0 auto', zIndex: 1 }}>
+                              {/* Stacked Layer 3 (deepest) */}
+                              <div style={{ position: 'absolute', bottom: '-12px', left: '16px', right: '16px', height: '24px', background: '#ffffff', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '24px', zIndex: -3, boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }} />
+                              {/* Stacked Layer 2 */}
+                              <div style={{ position: 'absolute', bottom: '-6px', left: '8px', right: '8px', height: '24px', background: '#ffffff', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '24px', zIndex: -2, boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }} />
+                              
+                              {/* Main Carousel Card Layer 1 */}
+                              <div style={{ 
+                                background: '#ffffff', 
+                                border: '1px solid rgba(0, 0, 0, 0.08)', 
+                                borderRadius: '24px', 
+                                padding: '28px 24px', 
+                                textAlign: 'center', 
+                                boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
+                                backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.05) 1.5px, transparent 1.5px)',
+                                backgroundSize: '20px 20px',
+                                position: 'relative',
+                                zIndex: 1
+                              }}>
+                                <h4 style={{ fontSize: '18px', fontWeight: '800', color: '#0a0a0f', marginBottom: '10px', letterSpacing: '-0.019em' }}>
+                                  {tab.slides[slideIndices[tab.id]].title}
+                                </h4>
+                                <p style={{ fontSize: '14.5px', color: '#4b5563', lineHeight: '1.6', margin: 0, fontWeight: '500' }}>
+                                  {tab.slides[slideIndices[tab.id]].description}
+                                </p>
+                              </div>
+
+                              {/* Stacked Left Arrow */}
+                              <button 
+                                className="calendar-btn-nav"
+                                onClick={() => handlePrevSlide(tab.id, tab.slides.length)} 
+                                style={{ 
+                                  position: 'absolute', 
+                                  left: '-20px', 
+                                  top: '50%', 
+                                  transform: 'translateY(-50%)', 
+                                  zIndex: 5, 
+                                  background: '#ffffff', 
+                                  border: '1px solid #e5e7eb', 
+                                  borderRadius: '12px', 
+                                  width: '40px', 
+                                  height: '40px', 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center', 
+                                  cursor: 'pointer', 
+                                  transition: 'all 0.2s', 
+                                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                                  color: '#000000',
+                                  fontWeight: 'bold',
+                                  fontSize: '18px'
+                                }}
+                                onMouseEnter={e => e.currentTarget.style.borderColor = '#f43f5e'}
+                                onMouseLeave={e => e.currentTarget.style.borderColor = '#e5e7eb'}
+                              >
+                                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                              </button>
+
+                              {/* Stacked Right Arrow */}
+                              <button 
+                                className="calendar-btn-nav"
+                                onClick={() => handleNextSlide(tab.id, tab.slides.length)} 
+                                style={{ 
+                                  position: 'absolute', 
+                                  right: '-20px', 
+                                  top: '50%', 
+                                  transform: 'translateY(-50%)', 
+                                  zIndex: 5, 
+                                  background: '#ffffff', 
+                                  border: '1px solid #e5e7eb', 
+                                  borderRadius: '12px', 
+                                  width: '40px', 
+                                  height: '40px', 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center', 
+                                  cursor: 'pointer', 
+                                  transition: 'all 0.2s', 
+                                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                                  color: '#000000',
+                                  fontWeight: 'bold',
+                                  fontSize: '18px'
+                                }}
+                                onMouseEnter={e => e.currentTarget.style.borderColor = '#f43f5e'}
+                                onMouseLeave={e => e.currentTarget.style.borderColor = '#e5e7eb'}
+                              >
+                                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ─── SERVICES ─── */
+    const Services = () => {
+      const [selectedService, setSelectedService] = useState(null);
+      const [formData, setFormData] = useState({ email: '', desc: '' });
+      const [showSuccess, setShowSuccess] = useState(false);
+      const [hoveredIndex, setHoveredIndex] = useState(null);
+      const [isPopDropdownOpen, setIsPopDropdownOpen] = useState(false);
+
+      const items = [
+        {
+          icon: "images/3dicons-folder-fav-front-color.png",
+          title: "Brand & Niche Strategy",
+          desc: "We study your research field, analyze competitors, and identify the unique niche preferred by your target audience.",
+          btnText: "Get Detailed Brand Direction Document",
+          bgGradient: "linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)",
+          iconBorder: "1px solid rgba(244, 63, 94, 0.35)",
+          hoverBorder: "rgba(244, 63, 94, 0.3)"
+        },
+        {
+          icon: "images/3dicons-youtube-front-color.png",
+          title: "Scriptwriting & Hook Eng.",
+          desc: "We write long-form and short-form scripts, psychologically designed to capture attention and convert passive viewers into potential customers.",
+          btnText: "Get Content Strategy & Video Ideas",
+          bgGradient: "linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)",
+          iconBorder: "1px solid rgba(244, 63, 94, 0.35)",
+          hoverBorder: "rgba(244, 63, 94, 0.3)"
+        },
+        {
+          icon: "images/3dicons-video-cam-front-color.png",
+          title: "Post-Production & Editing",
+          desc: "We edit videos in a style that maximizes viewer retention while maintaining your brand's professional visual identity.",
+          btnText: "Get Edited Videos & Visual Assets",
+          bgGradient: "linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)",
+          iconBorder: "1px solid rgba(244, 63, 94, 0.35)",
+          hoverBorder: "rgba(244, 63, 94, 0.3)"
+        }
+      ];
+
+      const handleSend = (e) => {
+        e.preventDefault();
+        if (!selectedService || !formData.email) return;
+        const subject = encodeURIComponent(`New ${selectedService.title} Project`);
+        const body = encodeURIComponent(`Email: ${formData.email}\n\nProject Description:\n${formData.desc}`);
+        window.location.href = `mailto:ahmedmahmoud22990@gmail.com?subject=${subject}&body=${body}`;
+
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          setSelectedService(null);
+          setFormData({ email: '', desc: '' });
+        }, 3000);
+      };
+
+      return (
+        <section id="services" style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Dot grid background */}
+          <div className="services-grid-bg" style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px)',
+            backgroundSize: '32px 32px',
+            zIndex: 0,
+            opacity: 0.8,
+            pointerEvents: 'none'
+          }} />
+          <div className="services-inner" style={{ position: 'relative', zIndex: 1 }}>
+            <R>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '100px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#0a0a0f', background: 'transparent' }}>
+                  Services
+                </span>
+              </div>
+            </R>
+            <R d={50}>
+              <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>How I Can Help You Grow</h2>
+            </R>
+            <R d={75}>
+              <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Tailored branding, script writing, and asset design to scale your digital presence.</p>
+            </R>
+            <div className="srv-grid">
+              {items.map((s, i) => (
+                <R key={i} d={i * 80}>
+                  <div
+                    className="srv-card-wrap"
+                    style={{ height: '100%' }}
+                    onMouseEnter={() => setHoveredIndex(i)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
+                    <div className="srv-card-inner" style={{
+                      height: '100%',
+                      background: s.bgGradient,
+                      padding: '40px 32px',
+                      borderRadius: '32px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      textAlign: 'left',
+                      justifyContent: 'flex-start',
+                      boxShadow: hoveredIndex === i ? '0 20px 40px rgba(0, 0, 0, 0.05)' : '0 20px 40px rgba(0, 0, 0, 0.02)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      transform: hoveredIndex === i ? 'translateY(-6px)' : 'none',
+                      transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s'
+                    }}>
+                      {/* Highlight border line overlay with card's primary color with opacity */}
+                      <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: '32px',
+                        border: `1px solid ${s.hoverBorder}`,
+                        opacity: hoveredIndex === i ? 1 : 0,
+                        transition: 'opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                        pointerEvents: 'none',
+                        zIndex: 3
+                      }} />
+                      <div className="srv-icon-wrap" style={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '50%',
+                        background: '#ffffff',
+                        border: s.iconBorder,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '28px'
+                      }}>
+                        <img src={s.icon} alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                      </div>
+                      <div className="srv-title" style={{ fontSize: '20px', fontWeight: '800', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em' }}>{s.title}</div>
+                      <div className="srv-desc" style={{ fontSize: '14.5px', lineHeight: '1.6', color: '#374151', marginBottom: '32px', flexGrow: 1 }}>{s.desc}</div>
+                      <button
+                        className="btn-ghost"
+                        style={{
+                          width: '100%',
+                          justifyContent: 'center',
+                          marginTop: 'auto',
+                          zIndex: 4
+                        }}
+                        onClick={() => setSelectedService(s)}
+                      >
+                        {s.btnText}
+                      </button>
+                    </div>
+                  </div>
+                </R>
+              ))}
+            </div>
+          </div>
+
+          {selectedService && (
+            <div className="popup-overlay" onClick={() => { setSelectedService(null); setIsPopDropdownOpen(false); }}>
+              <div className="popup-content" style={{
+                background: '#ffffff',
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                borderRadius: '24px',
+                padding: '36px',
+                width: '100%',
+                maxWidth: '480px',
+                boxShadow: '0 24px 60px rgba(0,0,0,0.08)',
+                position: 'relative',
+                transform: 'translateY(20px)',
+                animation: 'slideUp 0.3s forwards',
+                color: '#0a0a0f'
+              }} onClick={e => e.stopPropagation()}>
+                {showSuccess ? (
+                  <div style={{ textAlign: 'center', padding: '40px 0', animation: 'fadeIn 0.3s' }}>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#22c55e20', color: '#22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+                      <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                    <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px', color: '#0a0a0f' }}>Request Sent!</h3>
+                    <p style={{ color: '#6b7280' }}>Opening your email client...</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSend} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <h3 style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0a0a0f' }}>Start a Project</h3>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6b7280' }}>Select Service</label>
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          className="dark-input"
+                          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', border: '1px solid #e5e7eb' }}
+                          onClick={() => setIsPopDropdownOpen(!isPopDropdownOpen)}
+                        >
+                          <span style={{ color: selectedService ? '#0a0a0f' : '#9ca3af', fontWeight: '600' }}>
+                            {selectedService ? selectedService.title : 'Select a service...'}
+                          </span>
+                          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" style={{ transform: isPopDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: '#6b7280' }}>
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </div>
+
+                        {isPopDropdownOpen && (
+                          <div style={{
+                            position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '8px',
+                            background: 'white', border: '1px solid #e5e7eb', borderRadius: '12px',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.08)', zIndex: 10, padding: '8px 0',
+                            animation: 'fadeIn 0.2s ease'
+                          }}>
+                            {items.map(o => (
+                              <div
+                                key={o.title}
+                                style={{ padding: '12px 16px', cursor: 'pointer', fontSize: '14px', color: '#0a0a0f', transition: 'background 0.2s', fontWeight: '600' }}
+                                onMouseEnter={e => e.target.style.background = '#f4f6fb'}
+                                onMouseLeave={e => e.target.style.background = 'transparent'}
+                                onClick={() => { setSelectedService(o); setIsPopDropdownOpen(false); }}
+                              >
+                                {o.title}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6b7280' }}>Email Address</label>
+                      <input
+                        className="dark-input"
+                        style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f' }}
+                        type="email"
+                        required
+                        placeholder="your@email.com"
+                        value={formData.email}
+                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6b7280' }}>Small Description</label>
+                      <textarea
+                        className="dark-input"
+                        style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', minHeight: '100px', padding: '12px', fontSize: '14px', resize: 'vertical', color: '#0a0a0f' }}
+                        required
+                        placeholder="Tell me a bit about your project..."
+                        value={formData.desc}
+                        onChange={e => setFormData({ ...formData, desc: e.target.value })}
+                      />
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                      <button type="submit" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Let's create it</button>
+                      <button type="button" className="btn-ghost" style={{ padding: '0 24px' }} onClick={() => { setSelectedService(null); setIsPopDropdownOpen(false); }}>Cancel</button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+          )}
+        </section>
+      );
+    };
+
+    /* ─── CONTACT ─── */
+    const Contact = () => {
+      const [service, setService] = useState('');
+      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+      const serviceOptions = [
+        { value: 'youtube', label: 'YouTube branding' },
+        { value: 'carousels', label: 'LinkedIn/X carousels' },
+        { value: 'identity', label: 'Personal identity kits' },
+        { value: 'another', label: 'Another service' }
+      ];
+
+      const selectedOption = serviceOptions.find(o => o.value === service);
+
+      return (
+        <section id="contact" style={{ position: 'relative', overflow: 'hidden', padding: '60px 24px' }}>
+          <div className="contact-grid-bg"></div>
+          <div className="contact-wrap projects-inner" style={{ position: 'relative', zIndex: 1, padding: 0 }}>
+            <R>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '100px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#0a0a0f', background: 'transparent' }}>
+                  Contact Us
+                </span>
+              </div>
+            </R>
+            <R d={50}>
+              <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>Let's build something remarkable</h2>
+            </R>
+            <R d={75}>
+              <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Have a product idea, a redesign challenge, or just want to say hello? I respond within 24 hours.</p>
+            </R>
+
+            <div>
+              <div
+                className="contact-form-card"
+                style={{
+                  position: 'relative',
+                  background: 'linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  borderRadius: '32px',
+                  padding: '40px 32px',
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.02)',
+                  color: '#0a0a0f',
+                  maxWidth: '1104px',
+                  margin: '0 auto',
+                  width: '100%'
+                }}
+              >
+                <div className="dark-form" style={{ background: 'transparent', padding: 0, border: 'none', boxShadow: 'none' }}>
+                  <div className="dark-frow">
+                    <div>
+                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Your name</label>
+                      <input className="dark-input" type="text" placeholder="John Doe" style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                    </div>
+                    <div>
+                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Email</label>
+                      <input className="dark-input" type="email" placeholder="john@company.com" style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '16px' }}>
+                    <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Select service</label>
+                    <div style={{ position: 'relative' }}>
+                      <div
+                        className="dark-input"
+                        style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f' }}
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      >
+                        <span style={{ color: selectedOption ? '#0a0a0f' : '#9ca3af', fontWeight: '600' }}>
+                          {selectedOption ? selectedOption.label : 'Select a service...'}
+                        </span>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: '#6b7280' }}>
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </div>
+
+                      {isDropdownOpen && (
+                        <div style={{
+                          position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '8px',
+                          background: 'white', border: '1px solid #e5e7eb', borderRadius: '12px',
+                          boxShadow: '0 10px 30px rgba(0,0,0,0.08)', zIndex: 10, padding: '8px 0',
+                          animation: 'fadeIn 0.2s ease'
+                        }}>
+                          {serviceOptions.map(o => (
+                            <div
+                              key={o.value}
+                              style={{ padding: '12px 16px', cursor: 'pointer', fontSize: '14px', color: '#0a0a0f', transition: 'background 0.2s', fontWeight: '600' }}
+                              onMouseEnter={e => e.target.style.background = '#f4f6fb'}
+                              onMouseLeave={e => e.target.style.background = 'transparent'}
+                              onClick={() => { setService(o.value); setIsDropdownOpen(false); }}
+                            >
+                              {o.label}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {service === 'another' && (
+                    <div style={{ marginBottom: '16px', animation: 'fadeIn 0.3s ease' }}>
+                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Specify other service</label>
+                      <input className="dark-input" type="text" placeholder="Please specify..." style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                    </div>
+                  )}
+
+                  <div style={{ marginBottom: '24px' }}>
+                    <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>What are you working on?</label>
+                    <textarea className="dark-input" rows="5" placeholder="Describe your project or idea..." style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', padding: '12px', fontSize: '14px', color: '#0a0a0f', width: '100%', resize: 'none' }} />
+                  </div>
+
+                  <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', height: '46px', fontSize: '14px' }}>Send Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ─── FOOTER ─── */
+    const Footer = () => (
+      <footer style={{
+        background: 'transparent',
+        padding: '60px 24px 40px',
+        borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Dot grid points background */}
+        <div className="footer-grid-bg" style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px)',
+          backgroundSize: '32px 32px',
+          opacity: 0.8,
+          zIndex: 0,
+          pointerEvents: 'none'
+        }} />
+
+        {/* 2 CTA Buttons from Hero section */}
+        <div className="footer-cta" style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
+          <a href="#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Let's Talk</a>
+          <a href="#video" className="btn-ghost" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            Watch Vid
+          </a>
+        </div>
+
+        {/* Footer Navigation Links */}
+        <div className="footer-links" style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '32px', position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
+          <a href="#home" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>Home</a>
+          <a href="#about" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>About</a>
+          <a href="#projects" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>Work</a>
+          <a href="#services" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>Services</a>
+          <a href="#contact" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>Contact</a>
+          <a href="#booking" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>Booking</a>
+        </div>
+
+        {/* Social Media Icons */}
+        <div className="footer-socials" style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
+          <a href="mailto:ahmedmahmoud22990@gmail.com" style={{ color: '#9ca3af', transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#9ca3af'}>
+            {Svg.mail}
+          </a>
+          <a href="#" style={{ color: '#9ca3af', transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#9ca3af'}>
+            {Svg.linkedin}
+          </a>
+        </div>
+
+        {/* KACPER Large Outline text design positioned at the bottom of the footer */}
+        <div style={{
+          position: 'relative',
+          marginBottom: '24px',
+          zIndex: 1,
+          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          fontWeight: '900',
+          fontSize: 'clamp(60px, 12vw, 150px)',
+          color: 'transparent',
+          WebkitTextStroke: '1.5px rgba(10, 10, 15, 0.18)',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap',
+          userSelect: 'none',
+          lineHeight: '1'
+        }}>
+          KACPER
+        </div>
+
+        {/* Reserved rights sentence on bottom of footer */}
+        <p style={{ fontSize: '13px', color: '#6b7280', margin: '0', position: 'relative', zIndex: 1, fontWeight: '500' }}>
+          © 2026 Kacper. All rights reserved.
+        </p>
+      </footer>
+    );
+
+    /* ─── BOTTOM NAV ─── */
+    const BottomNav = () => {
+      const [active, setActive] = useState('home');
+
+      const navItems = [
+        { id: 'home', label: 'Home', icon: Svg.home },
+        { id: 'about', label: 'About', icon: Svg.user },
+        { id: 'projects', label: 'Work', icon: Svg.briefcase },
+        { id: 'contact', label: 'Contact', icon: Svg.mail }
+      ];
+
+      useEffect(() => {
+        const handleScroll = () => {
+          const scrollPos = window.scrollY + window.innerHeight * 0.5;
+          let currentId = 'home';
+          const ids = ['home', 'about', 'projects', 'contact'];
+          for (let i = ids.length - 1; i >= 0; i--) {
+            const section = document.getElementById(ids[i]);
+            if (section && section.offsetTop <= scrollPos) {
+              currentId = ids[i];
+              break;
+            }
+          }
+          setActive(currentId);
+        };
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <div className="bottom-nav">
+          <div className="bottom-nav-inner">
+            {navItems.map(item => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={`b-nav-item ${active === item.id ? 'active' : ''}`}
+                onClick={() => setActive(item.id)}
+              >
+                <div className="b-nav-icon">{item.icon}</div>
+                <span>{item.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    /* ─── FLOATING FIGMA LOGOS ─── */
+    const FloatingLogos = () => {
+      const [logos, setLogos] = useState([
+        { id: 1, left: '15vw', delay: '0s', duration: '3.5s', sway: '35vw', endSway: '70vw', rotate: '25deg', size: '250px' },
+        { id: 2, left: '85vw', delay: '0.1s', duration: '3.8s', sway: '-35vw', endSway: '-70vw', rotate: '-30deg', size: '220px' }
+      ]);
+
+      const removeLogo = (id) => {
+        setLogos(prev => prev.filter(logo => logo.id !== id));
+      };
+
+      return (
+        <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9999, overflow: 'hidden' }}>
+          {logos.map(logo => (
+            <img
+              key={logo.id}
+              src="file2/3dicons-figma-dynamic-color.png"
+              alt="Floating Figma Logo"
+              onAnimationEnd={() => removeLogo(logo.id)}
+              style={{
+                position: 'absolute',
+                top: '100vh',
+                left: logo.left,
+                width: logo.size,
+                height: 'auto',
+                animation: `floatUp ${logo.duration} linear ${logo.delay} forwards`,
+                '--sway-distance': logo.sway,
+                '--end-sway': logo.endSway,
+                '--rotation': logo.rotate
+              }}
+            />
+          ))}
+        </div>
+      );
+    };
+
+    /* ─── SCROLL TO TOP ─── */
+    const ScrollToTop = () => {
+      const [visible, setVisible] = useState(false);
+
+      useEffect(() => {
+        const toggleVisibility = () => {
+          if (window.scrollY > 400) {
+            setVisible(true);
+          } else {
+            setVisible(false);
+          }
+        };
+        window.addEventListener('scroll', toggleVisibility);
+        return () => window.removeEventListener('scroll', toggleVisibility);
+      }, []);
+
+      const scrollToTop = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      };
+
+      return (
+        <button
+          onClick={scrollToTop}
+          className={`scroll-to-top ${visible ? 'visible' : ''}`}
+          aria-label="Back to top"
+        >
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+      );
+    };
+
+    /* ─── CALENDAR WIDGET ─── */
+    const Calendar = ({ onSelectSlot }) => {
+      const today = new Date();
+      const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+      const [currentYear, setCurrentYear] = useState(today.getFullYear());
+      const [selectedDate, setSelectedDate] = useState(null);
+      const [selectedSlot, setSelectedSlot] = useState(null);
+
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+
+      const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+      const getDaysInMonth = (month, year) => {
+        return new Date(year, month + 1, 0).getDate();
+      };
+
+      const getFirstDayIndex = (month, year) => {
+        return new Date(year, month, 1).getDay();
+      };
+
+      const daysInMonth = getDaysInMonth(currentMonth, currentYear);
+      const firstDayIndex = getFirstDayIndex(currentMonth, currentYear);
+
+      const handlePrevMonth = () => {
+        if (currentMonth === 0) {
+          setCurrentMonth(11);
+          setCurrentYear(currentYear - 1);
+        } else {
+          setCurrentMonth(currentMonth - 1);
+        }
+        setSelectedDate(null);
+        setSelectedSlot(null);
+      };
+
+      const handleNextMonth = () => {
+        if (currentMonth === 11) {
+          setCurrentMonth(0);
+          setCurrentYear(currentYear + 1);
+        } else {
+          setCurrentMonth(currentMonth + 1);
+        }
+        setSelectedDate(null);
+        setSelectedSlot(null);
+      };
+
+      const handleDayClick = (day) => {
+        const clicked = new Date(currentYear, currentMonth, day);
+        if (clicked < new Date(today.getFullYear(), today.getMonth(), today.getDate())) return;
+
+        setSelectedDate(day);
+        setSelectedSlot(null);
+      };
+
+      const timeSlots = [
+        '07:00 PM - 07:15 PM',
+        '07:15 PM - 07:30 PM',
+        '07:30 PM - 07:45 PM',
+        '07:45 PM - 08:00 PM'
+      ];
+
+      const cells = [];
+      for (let i = 0; i < firstDayIndex; i++) {
+        cells.push(<div key={`empty-${i}`} className="calendar-day-cell disabled" style={{ background: 'transparent', cursor: 'default' }} />);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const currentCellDate = new Date(currentYear, currentMonth, day);
+        const isPast = currentCellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const isSelected = selectedDate === day;
+        const isToday = today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+
+        cells.push(
+          <div
+            key={`day-${day}`}
+            className={`calendar-day-cell ${isPast ? 'disabled' : ''} ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+            onClick={() => handleDayClick(day)}
+            style={{
+              aspectRatio: '1',
+              display: 'flex',
+              alignItems: 'center',
+              justifycontent: 'center',
+              borderRadius: '50%',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: isPast ? 'not-allowed' : 'pointer',
+              color: isSelected ? '#ffffff' : (isPast ? '#d1d5db' : '#1f2937'),
+              background: isSelected ? '#f43f5e' : 'transparent',
+              border: isToday ? '1.5px solid #f43f5e' : 'none',
+              boxShadow: isSelected ? '0 4px 12px rgba(244, 63, 94, 0.3)' : 'none',
+              transition: 'background 0.2s, color 0.2s',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            {day}
+          </div>
+        );
+      }
+
+      return (
+        <div className="calendar-container" style={{ background: 'transparent', border: 'none', padding: 0, boxShadow: 'none', display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+          <div className="calendar-header-ui" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#0a0a0f', fontSize: '18px', fontWeight: '700' }}>
+            <span>{months[currentMonth]} {currentYear}</span>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                className="calendar-btn-nav"
+                onClick={handlePrevMonth}
+                style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4b5563', transition: 'all 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#f43f5e'; e.currentTarget.style.color = '#f43f5e'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.color = '#4b5563'; }}
+              >
+                &lt;
+              </button>
+              <button
+                className="calendar-btn-nav"
+                onClick={handleNextMonth}
+                style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4b5563', transition: 'all 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#f43f5e'; e.currentTarget.style.color = '#f43f5e'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.color = '#4b5563'; }}
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+
+          <div className="calendar-grid-days" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px', textAlign: 'center' }}>
+            {daysOfWeek.map(d => (
+              <div key={d} className="calendar-day-header" style={{ fontSize: '12px', fontWeight: '700', color: '#9ca3af', textTransform: 'uppercase', paddingBottom: '6px' }}>{d}</div>
+            ))}
+            {cells}
+          </div>
+
+          {selectedDate && (
+            <div className="slots-container" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', paddingTop: '20px', animation: 'fadeIn 0.3s' }}>
+              <div className="slots-title" style={{ fontSize: '13px', fontWeight: '700', color: '#374151', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.02em', textAlign: 'left' }}>
+                Available Slots for {months[currentMonth]} {selectedDate}
+              </div>
+              <div className="slots-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '10px' }}>
+                {timeSlots.map(slot => (
+                  <div
+                    key={slot}
+                    className={`slot-item ${selectedSlot === slot ? 'selected' : ''}`}
+                    onClick={() => {
+                      setSelectedSlot(slot);
+                      onSelectSlot({
+                        date: new Date(currentYear, currentMonth, selectedDate),
+                        time: slot
+                      });
+                    }}
+                    style={{
+                      padding: '10px 14px',
+                      borderRadius: '10px',
+                      border: selectedSlot === slot ? '1.5px solid #f43f5e' : '1.5px solid #e5e7eb',
+                      background: selectedSlot === slot ? '#f43f5e' : '#ffffff',
+                      color: selectedSlot === slot ? '#ffffff' : '#374151',
+                      fontSize: '13.5px',
+                      fontWeight: '600',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={e => {
+                      if (selectedSlot !== slot) {
+                        e.currentTarget.style.borderColor = '#f43f5e';
+                        e.currentTarget.style.color = '#f43f5e';
+                        e.currentTarget.style.background = 'rgba(244, 63, 94, 0.03)';
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (selectedSlot !== slot) {
+                        e.currentTarget.style.borderColor = '#e5e7eb';
+                        e.currentTarget.style.color = '#374151';
+                        e.currentTarget.style.background = '#ffffff';
+                      }
+                    }}
+                  >
+                    {slot.split(' - ')[0]}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    /* ─── MEETING ─── */
+    const Meeting = () => {
+      const useCalCom = true; // Toggle to true to connect and display Cal.com embed instead of local calendar!
+      const calContainerRef = useRef(null);
+
+      const [bookingDetails, setBookingDetails] = useState(null);
+      const [formActive, setFormActive] = useState(false);
+      const [name, setName] = useState('');
+      const [email, setEmail] = useState('');
+      const [desc, setDesc] = useState('');
+      const [success, setSuccess] = useState(false);
+      const [loading, setLoading] = useState(false);
+
+      const handleSelectSlot = (slot) => {
+        setBookingDetails(slot);
+        setFormActive(true);
+      };
+
+      const handleConfirmBooking = (e) => {
+        e.preventDefault();
+        if (!name || !email) return;
+        setLoading(true);
+
+        const formattedDate = bookingDetails.date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const mailBody = `Hi Kacper,\n\nI would like to confirm our meeting on ${formattedDate} during the slot ${bookingDetails.time}.\n\nMy Details:\nName: ${name}\nEmail: ${email}\nProject Description: ${desc}\n\nLooking forward to speaking with you!`;
+        const mailtoUrl = `mailto:ahmedmahmoud22990@gmail.com?subject=Meeting Confirmation: ${formattedDate}&body=${encodeURIComponent(mailBody)}`;
+
+        setTimeout(() => {
+          setLoading(false);
+          setSuccess(true);
+          // Open default mail client silently without refreshing current window context
+          const link = document.createElement('a');
+          link.href = mailtoUrl;
+          link.click();
+        }, 1200);
+      };
+
+      useEffect(() => {
+        if (useCalCom) {
+          // Official Cal.com inline embed loader initialization
+          (function (C, A, L) {
+            let p = function (a, ar) { a.q.push(ar); };
+            let d = C.document;
+            C.Cal = C.Cal || function () {
+              let cal = C.Cal;
+              let ar = arguments;
+              if (!cal.loaded) {
+                cal.ns = {};
+                cal.q = cal.q || [];
+                d.head.appendChild(d.createElement("script")).src = A;
+                cal.loaded = true;
+              }
+              if (ar[0] === L) {
+                const api = function () { p(api, arguments); };
+                const namespace = ar[1];
+                api.q = api.q || [];
+                if (typeof namespace === "string") {
+                  cal.ns[namespace] = cal.ns[namespace] || api;
+                  p(cal.ns[namespace], ar);
+                  p(cal, ["initNamespace", namespace]);
+                } else p(cal, ar);
+                return;
+              }
+              p(cal, ar);
+            };
+          })(window, "https://app.cal.com/embed/embed.js", "init");
+
+          window.Cal("init", "15min", { origin: "https://app.cal.com" });
+          window.Cal.config = window.Cal.config || {};
+          window.Cal.config.forwardQueryParams = true;
+
+          window.Cal.ns["15min"]("inline", {
+            elementOrSelector: "#my-cal-inline-15min",
+            config: { "layout": "month_view", "useSlotsViewOnSmallScreen": "true", "theme": "light" },
+            calLink: "emailcontact-3b9mhk/15min",
+          });
+
+          window.Cal.ns["15min"]("ui", { "theme": "light", "cssVarsPerTheme": { "light": { "cal-brand": "#000000" } }, "hideEventTypeDetails": true, "layout": "month_view" });
+        }
+      }, [useCalCom]);
+
+      const formattedDateStr = bookingDetails?.date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      return (
+        <section id="booking" style={{ position: 'relative', overflow: 'hidden', padding: '80px 24px' }}>
+          {/* Dot grid points background */}
+          <div className="booking-grid-bg" style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'radial-gradient(rgba(10, 10, 15, 0.12) 1.5px, transparent 1.5px)',
+            backgroundSize: '32px 32px',
+            opacity: 0.8,
+            zIndex: 0,
+            pointerEvents: 'none'
+          }} />
+
+          <div className="schedule-wrap projects-inner" style={{ position: 'relative', zIndex: 1, padding: 0 }}>
+            {/* Centered Capsule Header */}
+            <R>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '100px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#0a0a0f', background: 'transparent' }}>
+                  Booking
+                </span>
+              </div>
+            </R>
+            <R d={50}>
+              <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>Book a Session</h2>
+            </R>
+            <R d={75}>
+              <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Schedule a free consultation session directly on my calendar below.</p>
+            </R>
+
+            {useCalCom ? (
+              /* Cal.com Inline Embed Container sitting directly on section background */
+              <div id="my-cal-inline-15min" style={{ width: '100%', minHeight: '650px', overflow: 'scroll', background: 'transparent', marginTop: '-24px' }} />
+            ) : (
+              /* Beautiful Local Calendar Fallback inside card */
+              <div
+                className="contact-form-card"
+                style={{
+                  position: 'relative',
+                  background: 'linear-gradient(to bottom, rgba(244, 63, 94, 0.06) 0%, #ffffff 100%)',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  borderRadius: '32px',
+                  padding: 'clamp(20px, 4vw, 40px)',
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.02)',
+                  color: '#0a0a0f',
+                  maxWidth: '650px',
+                  margin: '0 auto',
+                  width: '100%'
+                }}
+              >
+                <Calendar onSelectSlot={handleSelectSlot} />
+              </div>
+            )}
+          </div>
+
+          {formActive && !useCalCom && (
+            <div className="booking-modal-overlay" onClick={() => setFormActive(false)}>
+              <div className="popup-content" onClick={e => e.stopPropagation()} style={{ background: '#ffffff', borderRadius: '24px', padding: '36px', maxWidth: '480px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}>
+                {loading ? (
+                  /* Rotating Loader state card */
+                  <div style={{ textAlign: 'center', padding: '32px 0', animation: 'fadeIn 0.3s' }}>
+                    <div className="spinner" style={{
+                      width: '48px',
+                      height: '48px',
+                      border: '4px solid rgba(244, 63, 94, 0.1)',
+                      borderTop: '4px solid #f43f5e',
+                      borderRadius: '50%',
+                      margin: '0 auto 24px',
+                      animation: 'spin 1s linear infinite'
+                    }} />
+                    <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '8px', color: '#0a0a0f', letterSpacing: '-0.02em' }}>Processing Booking</h3>
+                    <p style={{ color: '#6b7280', fontSize: '14px' }}>Securing your consultation slot...</p>
+                  </div>
+                ) : success ? (
+                  /* Successful booking confirmation card with details */
+                  <div style={{ textAlign: 'center', padding: '24px 0', animation: 'fadeIn 0.3s' }}>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#22c55e20', color: '#22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+                      <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                    <h3 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '8px', color: '#0a0a0f', letterSpacing: '-0.02em' }}>Success! Booking Applied</h3>
+                    <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '24px' }}>Your consultation session details are verified:</p>
+
+                    {/* Booking details card simplified */}
+                    <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '16px', padding: '20px', textAlign: 'left', marginBottom: '28px' }}>
+                      <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '4px' }}>Day</div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#0a0a0f', marginBottom: '12px' }}>{formattedDateStr}</div>
+
+                      <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '4px' }}>Time</div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#0a0a0f', marginBottom: '12px' }}>{bookingDetails?.time}</div>
+
+                      <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '4px' }}>Email</div>
+                      <div style={{ fontSize: '15px', fontWeight: '700', color: '#0a0a0f' }}>{email}</div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => {
+                        setFormActive(false);
+                        setSuccess(false);
+                        setName('');
+                        setEmail('');
+                        setDesc('');
+                      }}
+                      style={{ width: '100%', justifyContent: 'center' }}
+                    >
+                      Done
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleConfirmBooking}>
+                    <h3 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '8px', color: '#0a0a0f', letterSpacing: '-0.02em' }}>Confirm Your Session</h3>
+                    <p style={{ fontSize: '13.5px', color: '#6b7280', marginBottom: '24px' }}>
+                      Selected: <strong>{formattedDateStr}</strong> at <strong>{bookingDetails?.time}</strong>
+                    </p>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                      <div>
+                        <label className="dark-label" style={{ marginBottom: '6px' }}>Your Name</label>
+                        <input className="dark-input" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} style={{ border: '1px solid #e5e7eb' }} />
+                      </div>
+
+                      <div>
+                        <label className="dark-label" style={{ marginBottom: '6px' }}>Email Address</label>
+                        <input className="dark-input" type="email" required placeholder="john@example.com" value={email} onChange={e => setEmail(e.target.value)} style={{ border: '1px solid #e5e7eb' }} />
+                      </div>
+
+                      <div>
+                        <label className="dark-label" style={{ marginBottom: '6px' }}>Project Description</label>
+                        <textarea className="dark-input" rows="3" placeholder="Tell me a bit about your project..." value={desc} onChange={e => setDesc(e.target.value)} style={{ border: '1px solid #e5e7eb', resize: 'none' }} />
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                        <button type="submit" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Confirm Booking</button>
+                        <button type="button" className="btn-ghost" onClick={() => setFormActive(false)} style={{ padding: '0 24px' }}>Cancel</button>
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+          )}
+        </section>
+      );
+    };
+
+    /* ─── APP ─── */
+    const App = () => {
+      return (
+        <div>
+          <ScrollToTop />
+          <Navbar />
+          <Hero />
+          <Marquee />
+          <About />
+          <Projects />
+          <Services />
+          <Contact />
+          <Meeting />
+          <Footer />
+          <BottomNav />
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+
+</html>
