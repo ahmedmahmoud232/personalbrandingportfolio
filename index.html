@@ -2498,7 +2498,9 @@
         border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
         border-radius: 20px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
-        overflow: hidden;
+        min-height: auto !important;
+        height: auto !important;
+        overflow: visible !important;
       }
     }
   </style>
@@ -2696,7 +2698,7 @@
               </div>
 
               {/* h1 has branding copy */}
-              <h1 className="hero-h1" style={{ display: 'block' }}>Stop Posting for Views. Start Creating for Revenue.</h1>
+              <h1 className="hero-h1" style={{ display: 'block' }}>The proven system for personal brands</h1>
 
               {/* Sub copy */}
               <p className="hero-sub">I help Business Owners build high-converting, monetization-focused personal brands that turn casual viewers into qualified high-ticket leads.</p>
@@ -2974,7 +2976,7 @@
       const [slideIndices, setSlideIndices] = useState({
         youtube: 0,
         linkedin: 0,
-        notion: 0
+        instagram: 0
       });
 
       useEffect(() => {
@@ -3027,23 +3029,23 @@
           ]
         },
         {
-          id: 'notion',
-          logo: 'images/Notion-Emblem.png',
-          title: 'Notion Workflow Setup',
-          accentColor: '#ECECEC',
-          borderColor: '#E0E0E0',
+          id: 'instagram',
+          logo: 'images/Instagram_logo_PNG16.png',
+          title: 'Instagram Strategy & Scale',
+          accentColor: '#FFEAEA',
+          borderColor: '#FFD6D6',
           slides: [
             {
-              title: "Brand Hubs",
-              description: "Centralizing your creative assets, guidelines, and media library in one single source of truth."
+              title: "Aesthetic Feed & Grid Layout",
+              description: "Designing high-end templates and cohesive layout grids that build a premium visual identity."
             },
             {
-              title: "Content Pipeline Database",
-              description: "Building relational databases to track your pipeline from ideation to publishing."
+              title: "Reels & Story Systems",
+              description: "Drafting engaging visual hooks and conversational triggers that maximize story reach and reel retention."
             },
             {
-              title: "Custom Workspace templates",
-              description: "Designing bespoke workspace setups suited for your team size and operational speed."
+              title: "Inbound Funnel Setup",
+              description: "Configuring messaging funnels and call-to-actions to turn profile visits into high-ticket inbound leads."
             }
           ]
         }
