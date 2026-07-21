@@ -2065,7 +2065,7 @@
         padding: 16px;
         gap: 16px;
         border-radius: 20px;
-        box-shadow: -6px 6px 0 0 white, -6px 6px 0 1px #e5e7eb, -6px 12px 20px rgba(0, 0, 0, 0.04);
+        box-shadow: none;
       }
 
       .proj-card,
@@ -2865,8 +2865,8 @@
                 <div className="chat-window" style={{ maxWidth: '100%', margin: '0 auto', textAlign: 'left', overflow: 'hidden' }}>
                   <div className="chat-header">
                     <div className="chat-header-left">
-                      <div className="chat-avatar-wrap">
-                        <img src="images/logo.png" className="chat-avatar" alt="Kacper" />
+                      <div className="chat-avatar-wrap" style={{ background: '#e5e7eb', padding: '1px', boxShadow: 'none' }}>
+                        <img src="images/IMG-20260720-WA0013.jpg" className="chat-avatar" alt="Kacper" style={{ border: 'none' }} />
                       </div>
                       <div className="chat-header-info">
                         <div className="chat-name">Kacper <div className="online-dot" /></div>
@@ -3360,7 +3360,7 @@
         if (!selectedService || !formData.email) return;
         const subject = encodeURIComponent(`New ${selectedService.title} Project`);
         const body = encodeURIComponent(`Email: ${formData.email}\n\nProject Description:\n${formData.desc}`);
-        window.location.href = `mailto:ahmedmahmoud22990@gmail.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:emailcontact134@gmail.com?subject=${subject}&body=${body}`;
 
         setShowSuccess(true);
         setTimeout(() => {
@@ -3573,8 +3573,13 @@
 
     /* ─── CONTACT ─── */
     const Contact = () => {
+      const [name, setName] = useState('');
+      const [email, setEmail] = useState('');
+      const [desc, setDesc] = useState('');
       const [service, setService] = useState('');
+      const [customService, setCustomService] = useState('');
       const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+      const [showSuccess, setShowSuccess] = useState(false);
 
       const serviceOptions = [
         { value: 'youtube', label: 'YouTube branding' },
@@ -3584,6 +3589,24 @@
       ];
 
       const selectedOption = serviceOptions.find(o => o.value === service);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const selectedServiceLabel = service === 'another' ? customService : (selectedOption ? selectedOption.label : '');
+        const subject = encodeURIComponent(`New Project Inquiry from ${name}`);
+        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${selectedServiceLabel}\n\nDescription:\n${desc}`);
+        window.location.href = `mailto:emailcontact134@gmail.com?subject=${subject}&body=${body}`;
+
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          setName('');
+          setEmail('');
+          setService('');
+          setCustomService('');
+          setDesc('');
+        }, 3000);
+      };
 
       return (
         <section id="contact" style={{ position: 'relative', overflow: 'hidden', padding: '60px 24px' }}>
@@ -3619,71 +3642,81 @@
                   width: '100%'
                 }}
               >
-                <div className="dark-form" style={{ background: 'transparent', padding: 0, border: 'none', boxShadow: 'none' }}>
-                  <div className="dark-frow">
-                    <div>
-                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Your name</label>
-                      <input className="dark-input" type="text" placeholder="John Doe" style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                {showSuccess ? (
+                  <div style={{ textAlign: 'center', padding: '40px 0', animation: 'fadeIn 0.3s' }}>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#22c55e20', color: '#22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+                      <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
                     </div>
-                    <div>
-                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Email</label>
-                      <input className="dark-input" type="email" placeholder="john@company.com" style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
-                    </div>
+                    <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px', color: '#0a0a0f' }}>Request Sent!</h3>
+                    <p style={{ color: '#6b7280' }}>Opening your email client...</p>
                   </div>
-
-                  <div style={{ marginBottom: '16px' }}>
-                    <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Select service</label>
-                    <div style={{ position: 'relative' }}>
-                      <div
-                        className="dark-input"
-                        style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f' }}
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      >
-                        <span style={{ color: selectedOption ? '#0a0a0f' : '#9ca3af', fontWeight: '600' }}>
-                          {selectedOption ? selectedOption.label : 'Select a service...'}
-                        </span>
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: '#6b7280' }}>
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
+                ) : (
+                  <form onSubmit={handleSubmit} className="dark-form" style={{ background: 'transparent', padding: 0, border: 'none', boxShadow: 'none' }}>
+                    <div className="dark-frow">
+                      <div>
+                        <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Your name</label>
+                        <input className="dark-input" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
                       </div>
+                      <div>
+                        <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Email</label>
+                        <input className="dark-input" type="email" required placeholder="john@company.com" value={email} onChange={e => setEmail(e.target.value)} style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                      </div>
+                    </div>
 
-                      {isDropdownOpen && (
-                        <div style={{
-                          position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '8px',
-                          background: 'white', border: '1px solid #e5e7eb', borderRadius: '12px',
-                          boxShadow: '0 10px 30px rgba(0,0,0,0.08)', zIndex: 10, padding: '8px 0',
-                          animation: 'fadeIn 0.2s ease'
-                        }}>
-                          {serviceOptions.map(o => (
-                            <div
-                              key={o.value}
-                              style={{ padding: '12px 16px', cursor: 'pointer', fontSize: '14px', color: '#0a0a0f', transition: 'background 0.2s', fontWeight: '600' }}
-                              onMouseEnter={e => e.target.style.background = '#f4f6fb'}
-                              onMouseLeave={e => e.target.style.background = 'transparent'}
-                              onClick={() => { setService(o.value); setIsDropdownOpen(false); }}
-                            >
-                              {o.label}
-                            </div>
-                          ))}
+                    <div style={{ marginBottom: '16px' }}>
+                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Select service</label>
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          className="dark-input"
+                          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f' }}
+                          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        >
+                          <span style={{ color: selectedOption ? '#0a0a0f' : '#9ca3af', fontWeight: '600' }}>
+                            {selectedOption ? selectedOption.label : 'Select a service...'}
+                          </span>
+                          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: '#6b7280' }}>
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
                         </div>
-                      )}
+
+                        {isDropdownOpen && (
+                          <div style={{
+                            position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '8px',
+                            background: 'white', border: '1px solid #e5e7eb', borderRadius: '12px',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.08)', zIndex: 10, padding: '8px 0',
+                            animation: 'fadeIn 0.2s ease'
+                          }}>
+                            {serviceOptions.map(o => (
+                              <div
+                                key={o.value}
+                                style={{ padding: '12px 16px', cursor: 'pointer', fontSize: '14px', color: '#0a0a0f', transition: 'background 0.2s', fontWeight: '600' }}
+                                onMouseEnter={e => e.target.style.background = '#f4f6fb'}
+                                onMouseLeave={e => e.target.style.background = 'transparent'}
+                                onClick={() => { setService(o.value); setIsDropdownOpen(false); }}
+                              >
+                                {o.label}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  {service === 'another' && (
-                    <div style={{ marginBottom: '16px', animation: 'fadeIn 0.3s ease' }}>
-                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Specify other service</label>
-                      <input className="dark-input" type="text" placeholder="Please specify..." style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                    {service === 'another' && (
+                      <div style={{ marginBottom: '16px', animation: 'fadeIn 0.3s ease' }}>
+                        <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>Specify other service</label>
+                        <input className="dark-input" type="text" placeholder="Please specify..." value={customService} onChange={e => setCustomService(e.target.value)} style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', height: '42px', padding: '0 12px', fontSize: '14px', color: '#0a0a0f', width: '100%' }} />
+                      </div>
+                    )}
+
+                    <div style={{ marginBottom: '24px' }}>
+                      <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>What are you working on?</label>
+                      <textarea className="dark-input" rows="5" required placeholder="Describe your project or idea..." value={desc} onChange={e => setDesc(e.target.value)} style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', padding: '12px', fontSize: '14px', color: '#0a0a0f', width: '100%', resize: 'none' }} />
                     </div>
-                  )}
 
-                  <div style={{ marginBottom: '24px' }}>
-                    <label className="dark-label" style={{ fontSize: '14px', fontWeight: '400', textTransform: 'none', color: '#374151', marginBottom: '8px', display: 'block', letterSpacing: 'normal' }}>What are you working on?</label>
-                    <textarea className="dark-input" rows="5" placeholder="Describe your project or idea..." style={{ border: '1px solid #e5e7eb', background: '#ffffff', borderRadius: '10px', padding: '12px', fontSize: '14px', color: '#0a0a0f', width: '100%', resize: 'none' }} />
-                  </div>
-
-                  <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', height: '46px', fontSize: '14px' }}>Send Message</button>
-                </div>
+                    <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center', height: '46px', fontSize: '14px' }}>Send Message</button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -3731,15 +3764,7 @@
           <a href="#booking" style={{ color: '#4b5563', fontSize: '16px', fontWeight: '600', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#4b5563'}>Booking</a>
         </div>
 
-        {/* Social Media Icons */}
-        <div className="footer-socials" style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
-          <a href="mailto:ahmedmahmoud22990@gmail.com" style={{ color: '#9ca3af', transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#9ca3af'}>
-            {Svg.mail}
-          </a>
-          <a href="#" style={{ color: '#9ca3af', transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.target.style.color = '#f43f5e'} onMouseLeave={e => e.target.style.color = '#9ca3af'}>
-            {Svg.linkedin}
-          </a>
-        </div>
+
 
         {/* KACPER Large Outline text design positioned at the bottom of the footer */}
         <div style={{
@@ -3774,7 +3799,7 @@
       const navItems = [
         { id: 'home', label: 'Home', icon: Svg.home },
         { id: 'about', label: 'About', icon: Svg.user },
-        { id: 'projects', label: 'Work', icon: Svg.briefcase },
+        { id: 'projects', label: 'Process', icon: Svg.briefcase },
         { id: 'contact', label: 'Contact', icon: Svg.mail }
       ];
 
@@ -4105,7 +4130,7 @@
 
         const formattedDate = bookingDetails.date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const mailBody = `Hi Kacper,\n\nI would like to confirm our meeting on ${formattedDate} during the slot ${bookingDetails.time}.\n\nMy Details:\nName: ${name}\nEmail: ${email}\nProject Description: ${desc}\n\nLooking forward to speaking with you!`;
-        const mailtoUrl = `mailto:ahmedmahmoud22990@gmail.com?subject=Meeting Confirmation: ${formattedDate}&body=${encodeURIComponent(mailBody)}`;
+        const mailtoUrl = `mailto:emailcontact134@gmail.com?subject=Meeting Confirmation: ${formattedDate}&body=${encodeURIComponent(mailBody)}`;
 
         setTimeout(() => {
           setLoading(false);
