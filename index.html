@@ -2879,12 +2879,12 @@
                 <div className="chat-window" style={{ maxWidth: '100%', margin: '0 auto', textAlign: 'left', overflow: 'hidden' }}>
                   <div className="chat-header">
                     <div className="chat-header-left">
-                      <div className="chat-avatar-wrap" style={{ background: '#e5e7eb', padding: '1px', boxShadow: 'none' }}>
-                        <img src="images/IMG-20260720-WA0013.jpg" className="chat-avatar" alt="Kacper" style={{ border: 'none' }} />
+                      <div className="chat-avatar-wrap" style={{ background: '#e5e7eb', padding: '1px', boxShadow: 'none', width: '68px', height: '68px', overflow: 'hidden' }}>
+                        <img src="images/IMG-20260720-WA0013.jpg" className="chat-avatar" alt="Kacper" style={{ border: 'none', width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(2.1) translateY(5px)', transformOrigin: 'center 18%' }} />
                       </div>
                       <div className="chat-header-info">
                         <div className="chat-name">Kacper <div className="online-dot" /></div>
-                        <div className="chat-title">Personal Brand Specialist</div>
+                        <div className="chat-title">Personal brands and more</div>
                       </div>
                     </div>
                   </div>
@@ -3374,7 +3374,7 @@
         if (!selectedService || !formData.email) return;
         const subject = encodeURIComponent(`New ${selectedService.title} Project`);
         const body = encodeURIComponent(`Email: ${formData.email}\n\nProject Description:\n${formData.desc}`);
-        window.location.href = `mailto:emailcontact134@gmail.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:Kacper@creatorsflow.org?subject=${subject}&body=${body}`;
 
         setShowSuccess(true);
         setTimeout(() => {
@@ -3609,7 +3609,7 @@
         const selectedServiceLabel = service === 'another' ? customService : (selectedOption ? selectedOption.label : '');
         const subject = encodeURIComponent(`New Project Inquiry from ${name}`);
         const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${selectedServiceLabel}\n\nDescription:\n${desc}`);
-        window.location.href = `mailto:emailcontact134@gmail.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:Kacper@creatorsflow.org?subject=${subject}&body=${body}`;
 
         setShowSuccess(true);
         setTimeout(() => {
@@ -3637,7 +3637,7 @@
               <h2 className="section-h2" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', marginTop: '0', marginBottom: '12px', color: '#0a0a0f', letterSpacing: '-0.02em', textAlign: 'center' }}>Let's build something remarkable</h2>
             </R>
             <R d={75}>
-              <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Have a product idea, a redesign challenge, or just want to say hello? I respond within 24 hours.</p>
+              <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '48px', fontWeight: '500', letterSpacing: '-0.01em', textAlign: 'center' }}>Want to work with us or have a question? I respond within 24 hours</p>
             </R>
 
             <div>
@@ -4144,7 +4144,7 @@
 
         const formattedDate = bookingDetails.date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const mailBody = `Hi Kacper,\n\nI would like to confirm our meeting on ${formattedDate} during the slot ${bookingDetails.time}.\n\nMy Details:\nName: ${name}\nEmail: ${email}\nProject Description: ${desc}\n\nLooking forward to speaking with you!`;
-        const mailtoUrl = `mailto:emailcontact134@gmail.com?subject=Meeting Confirmation: ${formattedDate}&body=${encodeURIComponent(mailBody)}`;
+        const mailtoUrl = `mailto:Kacper@creatorsflow.org?subject=Meeting Confirmation: ${formattedDate}&body=${encodeURIComponent(mailBody)}`;
 
         setTimeout(() => {
           setLoading(false);
